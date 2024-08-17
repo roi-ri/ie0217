@@ -1,6 +1,6 @@
 #include <iostream> 
 int main(){
-    std::cout << "Hello world";
+    std::cout << "Hola mundo, estudiantes de IE0217";
     return 0; 
 }
 
