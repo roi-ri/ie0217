@@ -6,7 +6,7 @@ int main(){  //inicia la funcion main
 
     cout<< "Hola mundo estudiantes de IE0217!\n"; // cout es para imprimir una salida, acompañado de <<
 
-    int var1 = 1;
+    int var1 = 53;
     int var2 = 2;
     int var3 = 2;
 
@@ -19,10 +19,13 @@ int main(){  //inicia la funcion main
             cout<< "Case Final! \n";
             break;
         default:
+            cout<< "Case Default! \n"; 
             break; 
 
 
     }
+
+    return 0; 
 
 }
 
