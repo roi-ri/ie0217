@@ -42,3 +42,4 @@ void write_extern(void){
     std::cout << "count is " << cuenta << std::endl;
 }
 
+
