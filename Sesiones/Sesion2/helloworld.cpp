@@ -6,15 +6,26 @@ int main(){  //inicia la funcion main
 
     cout<< "Hola mundo estudiantes de IE0217!\n"; // cout es para imprimir una salida, acompañado de <<
 
-    int var1 = 0;
-    int var2;
+    int var1 = 1;
+    int var2 = 2;
+    int var3 = 2;
+
+    switch (var1){
+        case 1: 
+            std::cout<< "Case 1! \n";
+            break;
+        case 2: 
+            std::cout<< "Case 2! \n";
+            break;
+        case 3: 
+            std::cout<< "Case 3! \n";
+            break;
+        default:
+            break; 
 
 
-    var2 = (var1 == 0) ? 15 : 27;
+    }
 
-    std::cout << "var2: \n" << var2 << "";
-    
-    return 0; //Usado para salir de la funcion, en este caso main
 }
 
 
