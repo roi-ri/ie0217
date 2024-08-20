@@ -15,10 +15,8 @@ int main(){  //inicia la funcion main
             std::cout<< "Case 1! \n";
             break;
         case 2: 
-            std::cout<< "Case 2! \n";
-            break;
-        case 3: 
-            std::cout<< "Case 3! \n";
+        case 3:
+            cout<< "Case Final! \n";
             break;
         default:
             break; 
