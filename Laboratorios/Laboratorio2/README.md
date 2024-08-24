@@ -17,7 +17,7 @@
    .\Lab2.exe
    ```
 
-De esta manera puede correr el programa.
+De esta manera logra ejecutar el programa.
 
 
 ## Prueba de ejecución del programa

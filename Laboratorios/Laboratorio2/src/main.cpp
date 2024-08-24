@@ -2,14 +2,14 @@
 #include "funciones.hpp"
 
 using namespace std;
-
+// Se establece MAX_LIBROS para mayor facilidad a futuro si fuera necesario recurrir al cambio de 100 a otro numero especifico
 const int MAX_LIBROS = 100; 
 
  int main() {
     Libro libros[MAX_LIBROS]; 
-    int cantidadLibros;
+    int cantidadLibros; 
     int opcion;
-
+    //do-while para asegurar que se haga al menos una vez la impresión del menú
     do{
         cout << "\n Sistema de Gestión de Libros\n";
         cout << "1. Agregar un libro\n";
@@ -43,7 +43,7 @@ const int MAX_LIBROS = 100;
                 cout << "Opción incorrecta, intente nuevamente.\n";
         }
 
-    }while(opcion != 6); 
+    }while(opcion != 6); // Si se selecciona opcion 6 se rompe el while y se sale del programa
 
     return 0; 
  }
