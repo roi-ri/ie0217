@@ -37,6 +37,6 @@ int main(){
     miPerro.setEdad(3);
 
     cout << "Mi perro se llama " << miPerro.getNombre() << endl;
-    cout << "y tiene " << miPerro.getNombre() << "anios" << endl;
+    cout << "y tiene " << miPerro.getEdad() << "anios" << endl;
     return 0;
 }
