@@ -20,7 +20,6 @@ struct converDatos{
 };
 // Firmado de las funcoines usadas en el programa
 
-void mostrarMenu();
 double convLongitud(const converDatos &data);
 double convMetro(string &salida, double &numero);
 double convCenti(string &salida, double &numero);

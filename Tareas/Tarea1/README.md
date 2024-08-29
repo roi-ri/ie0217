@@ -26,7 +26,7 @@ sudo apt-get install build-essential
 
 3. Compilador de programas:
 
-Navegue hasta el directorio donde se encuentra el `MAKEFILE` utilizando el comando `cd`
+Navegue hasta el directorio donde se encuentra el `Makefile` utilizando el comando `cd`
 
 ```bash
 # en este caso puede que la ruta dea la siguiente:

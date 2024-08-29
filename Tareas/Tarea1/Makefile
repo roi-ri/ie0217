@@ -20,23 +20,30 @@ else
     PATHSEP = /
 endif
 
-# Definir el programa y sus fuentes
-PROGRAMS = conversor
+# Definir los programas y sus fuentes
+PROGRAMS = conversor estadisticas
 TARGETS = $(addsuffix $(EXE_EXT), $(PROGRAMS))
 
 # Fuentes y encabezados
-SRCS = src$(PATHSEP)conversiones.cpp src$(PATHSEP)main.cpp
-HEADERS = src$(PATHSEP)conversiones.hpp
+SRCS_CONVERSOR = src$(PATHSEP)main1.cpp src$(PATHSEP)conversiones.cpp
+SRCS_ESTADISTICAS = src$(PATHSEP)main2.cpp src$(PATHSEP)calcEstadyBusq.cpp
+HEADERS = src$(PATHSEP)conversiones.hpp src$(PATHSEP)calcEstadyBusq.hpp
 
-# Reglas para compilar el programa
+# Reglas para compilar los programas
 all: $(TARGETS)
 
-conversor$(EXE_EXT): $(SRCS) $(HEADERS)
-	$(CC) $(CFLAGS) -o $@ $(SRCS)
+conversor$(EXE_EXT): $(SRCS_CONVERSOR) $(HEADERS)
+	$(CC) $(CFLAGS) -o $@ $(SRCS_CONVERSOR)
 
-# Ejecutar el programa
-run: $(TARGETS)
-	$(RUN) $(TARGETS)
+estadisticas$(EXE_EXT): $(SRCS_ESTADISTICAS) $(HEADERS)
+	$(CC) $(CFLAGS) -o $@ $(SRCS_ESTADISTICAS)
+
+# Ejecutar los programas
+run-conversor: conversor$(EXE_EXT)
+	$(RUN) conversor$(EXE_EXT)
+
+run-estadisticas: estadisticas$(EXE_EXT)
+	$(RUN) estadisticas$(EXE_EXT)
 
 # Limpiar todos los programas
 clean:
