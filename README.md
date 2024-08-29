@@ -1,12 +1,9 @@
-# ie0217
-Este repositorio será utilizado para el curso IE0217 Estructuras Abstractas de Datos y Algoritmos para ingenieria 
+<h1 style="text-align: center;">
+    Repositorio principal del curso: <br><br>
+    Estructuras de Datos y Algoritmos para Ingeniería IE0217
+</h1>
 
-**Este es un texto en formato negrita**
-
-_Este es un texto inclinado_  
-
-Para correr la tarea 1 sirvase correr los siguientes comandos: 
-```
-cd repo
-make run
-```
+<h3 style="text-align: center;">
+    Profesor: Esteban Badilla Alvarado <br><br>
+    Estudiante: Rodrigo Sánchez Araya, C37259
+</h3>
