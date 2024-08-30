@@ -17,9 +17,9 @@ double convMetro(string &salida, double &numero){
         cout << "No hay conversión que hacer, el dato es:" << numero << "m" << endl;
     } else if (salida == "KILOMETROS"){
         cout << "La conversión de metros a kilómetros da como resultado: " << (numero / 1000) << "Km" << endl;
-    } else if (salida == "CENTIMETER"){
+    } else if (salida == "CENTIMETROS"){
         cout << "La conversión de metros a centímetro da como resultado: " << (numero * 100) << "cm" << endl;
-    } else if (salida == "MILIMETRO"){
+    } else if (salida == "MILIMETROS"){
         cout << "La conversión de metros a milímetro da como resultado: " << (numero * 1000) << "mm" << endl;
     } else if (salida == "PULGADA"){
         cout << "La conversión de metros a pulgadas da como resultado: " << (numero * 39.37) << "in" << endl;
@@ -29,13 +29,13 @@ double convMetro(string &salida, double &numero){
 };
 // Esta funcion se utiliza cuando entrada == CENTIMETROS
 double convCenti(string &salida, double &numero){
-    if (salida == "CENTIMETER"){
+    if (salida == "CENTIMETROS"){
         cout << "No hay conversión que hacer, el dato es:" << numero << "cm" << endl;
     } else if (salida == "METROS"){
         cout << "La conversión de centîmetros a metros da como resultado: " << (numero / 100) << "m" << endl;
     } else if (salida == "KILOMETROS"){
         cout << "La conversión de centîmetros a kilónmetros da como resultado: " << (numero / 10000) << "km" << endl;
-    } else if (salida == "MILIMETRO"){
+    } else if (salida == "MILIMETROS"){
         cout << "La conversión de centîmetros a milímetros da como resultado: " << (numero * 10) << "mm" << endl;
     } else if (salida == "PULGADA"){
         cout << "La conversión de centîmetros a pulgadas da como resultado: " << (numero / 2.54) << "in" << endl;
@@ -51,7 +51,7 @@ double convKilom(string &salida, double &numero){
         cout << "La conversión de kilómetros a metros da como resultado: " << (numero * 1000) << "m" << endl;
     } else if (salida == "CENTIMETROS"){
         cout << "La conversión de kilómetros a centímetros da como resultado: " << (numero * 100000) << "cm" << endl;
-    } else if (salida == "MILIMETRO"){
+    } else if (salida == "MILIMETROS"){
         cout << "La conversión de kilómetros a milímetros da como resultado: " << (numero * 1000000) << "mm" << endl;
     } else if (salida == "PULGADA"){
         cout << "La conversión de kilómetros a pulgadas da como resultado: " << (numero * 39370) << "in" << endl;
@@ -59,9 +59,9 @@ double convKilom(string &salida, double &numero){
         cout << "La conversión de kilómetros a millas da como resultado: " << (numero / 1.609) << "Mil" << endl;
     };
 }
-// Esta funcion se va a utilizar para entrada == MIlIMETRO
+// Esta funcion se va a utilizar para entrada == MILIMETROS
 double convMilim(string &salida, double &numero){
-     if (salida == "MILIMETRO"){
+     if (salida == "MILIMETROS"){
         cout << "No hay conversión que hacer, el dato es:" << numero << "mm" << endl;
     } else if (salida == "METROS"){
         cout << "La conversión de milímetros a metros da como resultado: " << (numero / 1000) << "m" << endl;
@@ -110,9 +110,9 @@ double convMill(string &salida, double &numero){
 // implementacion de funcion de longitud
 double convLongitud(const converDatos &data){
     converDatos d;
-    cout << "Ingrese una unidad de entrada: \nOpciones posibles (METROS, KILOMETROS, CENTIMETRO, MILIMETRO, PULGADA, MILLA): "; 
+    cout << "Ingrese una unidad de entrada: \nOpciones posibles (METROS, KILOMETROS, CENTIMETRO, MILIMETROS, PULGADA, MILLA): "; 
     cin >> d.unidadOrigen;
-    cout << "Ingrese el número de la opción de salida:\nOpciones posibles (METROS, KILOMETROS, CENTIMETRO, MILIMETRO, PULGADA, MILLA): ";
+    cout << "Ingrese el número de la opción de salida:\nOpciones posibles (METROS, KILOMETROS, CENTIMETRO, MILIMETROS, PULGADA, MILLA): ";
     cin >> d.unidadSalida;
     cout << "Ingrese el número sobre el que desea realizar la conversión: "; 
     cin >> d.numeroConver;
@@ -124,7 +124,7 @@ double convLongitud(const converDatos &data){
         convKilom(d.unidadSalida, d.numeroConver);
     } else if (d.unidadOrigen == "CENTIMETROS"){
         convCenti(d.unidadSalida, d.numeroConver);
-    } else if (d.unidadOrigen == "MILIMETRO"){
+    } else if (d.unidadOrigen == "MILIMETROS"){
         convMilim(d.unidadSalida, d.numeroConver);
     } else if (d.unidadOrigen == "PULGADA"){
         convPulga(d.unidadSalida, d.numeroConver);
@@ -240,20 +240,20 @@ double convPeso(const converDatos &data){
 // Implementacion de la funcion de convertir temperatura
 double convTemperatura(const converDatos &data){
     converDatos d;
-    cout << "Ingrese una unidad de entrada: \nOpciones posibles (CELCUIS, FAHRENHEIT, KELVIN): "; 
+    cout << "Ingrese una unidad de entrada: \nOpciones posibles (CELSIUS, FAHRENHEIT, KELVIN): "; 
     cin >> d.unidadOrigen;
-    cout << "Ingrese el número de la opción de salida:\nOpciones posibles (CELCUIS, FAHRENHEIT, KELVIN): ";
+    cout << "Ingrese el número de la opción de salida:\nOpciones posibles (CELSIUS, FAHRENHEIT, KELVIN): ";
     cin >> d.unidadSalida;
     cout << "Ingrese el número sobre el que desea realizar la conversión: "; 
     cin >> d.numeroConver;
 
 
-    if (d.unidadOrigen == "CELCUIS"){
-        convMetro(d.unidadSalida, d.numeroConver);
+    if (d.unidadOrigen == "CELSIUS"){
+        convCel(d.unidadSalida, d.numeroConver);
     }else if (d.unidadOrigen == "FAHRENHEIT"){
-        convKilom(d.unidadSalida, d.numeroConver);
+        convFar(d.unidadSalida, d.numeroConver);
     } else if (d.unidadOrigen == "KELVIN"){
-        convCenti(d.unidadSalida, d.numeroConver);
+        convKel(d.unidadSalida, d.numeroConver);
     } 
     return 0;
 
@@ -262,7 +262,7 @@ double convTemperatura(const converDatos &data){
 double convKel( string &salida, double &numero){
     if (salida == "KELVIN"){
         cout << "No hay conversión que hacer, el dato es:" << numero << "K" << endl;
-    } else if (salida == "CELCUIS"){
+    } else if (salida == "CELSIUS"){
         cout << "La conversión de kelvin a celcius da como resultado: " << (numero - 273.15) << "°C" << endl;
     } else if (salida == "FAHRENHEIT"){
         cout << "La conversión de kelvin a fahrenheit da como resultado: " << ((numero - 273.25)*9/5 + 32) << "°F" << endl;
@@ -271,12 +271,12 @@ double convKel( string &salida, double &numero){
 
 
 double convFar( string &salida, double &numero){
-    if (salida == "CELCUIS"){
+    if (salida == "CELSIUS"){
         cout << "No hay conversión que hacer, el dato es:" << numero << "°C" << endl;
     } else if (salida == "KELVIN"){
-        cout << "La conversión de celcuis a kelvin da como resultado: " << (numero + 273.15) << "K" << endl;
+        cout << "La conversión de CELSIUS a kelvin da como resultado: " << (numero + 273.15) << "K" << endl;
     } else if (salida == "FAHRENHEIT"){
-        cout << "La conversión de celcuis a fahrenheit da como resultado: " << ((numero*(9/5) + 32)) << "°F" << endl;
+        cout << "La conversión de CELSIUS a fahrenheit da como resultado: " << ((numero*(9/5) + 32)) << "°F" << endl;
     }
 
 };
@@ -288,7 +288,7 @@ double convCel( string &salida, double &numero){
     } else if (salida == "KELVIN"){
         cout << "La conversión de fahrenheit a kelvin da como resultado: " << ((numero -32)*5/9 + 273.15) << "K" << endl;
     } else if (salida == "fahrenheit"){
-        cout << "La conversión de celcuis a celcuis da como resultado: " << ((numero -32)*(5/9)) << "°C" << endl;
+        cout << "La conversión de CELSIUS a CELSIUS da como resultado: " << ((numero -32)*(5/9)) << "°C" << endl;
     }
 };
 
