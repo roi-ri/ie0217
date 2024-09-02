@@ -57,5 +57,34 @@ int main(){
     return 0;
 }
 
+// Utilizando POO
 
+class Student {
+    private:
+        int age; 
+    
+    public:
 
+        //constructor que inicializa edad a 12
+        Student() : age(12){}
+
+        void getAge(){
+            cout << "Age = " << age << endl;
+        }
+
+};
+
+int main(){
+    // declarar dinamicamente el objeto estudiante
+    Student* ptr = new Student();
+
+    // Llamar la funcion getAge()
+
+    ptr->getAge();
+
+    // Liberar memoria 
+    delete ptr;
+
+    return 0; 
+
+}
