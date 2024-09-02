@@ -18,6 +18,20 @@ int main(){
     // Liberar la memoria asignada al heap
 
     delete heapVariable;
+    int* pointVar;
+
+    // alojar memoria dinamicamente para una nueba variable tipo int
+    pointVar = new int;
+
+    // asignar valor al espacio de memoria del puntero
+
+    *pointVar = 45;
+
+    std::cout << *pointVar << std::endl;
+
+    delete pointVar; //Liberar memoria
+
+
     return 0; 
-    
+
 }
