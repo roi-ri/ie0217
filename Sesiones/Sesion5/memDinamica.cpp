@@ -27,3 +27,35 @@ int main(){
 
     return 0;
 }
+
+// Uso con arrays
+
+int main(){
+
+    int num;
+    cout << "Enter total number of students"<< endl;
+    cin >> num;
+    float* ptr;
+
+    // alocar memoria
+    ptr = new float[num];
+
+    cout << "Enter GPA of students." << endl;
+    for(int i =0; i < num; i++){
+        cout << "Student " << i + 1 << ":" << *(ptr + i) << endl;
+        cin >> *(ptr + i);
+    }
+
+    cout << "\nDisplaying GPA of students." << endl;
+    for (int i = 0; i < num; i++){
+        cout << "Student" << i + 1<< ":" << *(ptr + i) << endl;
+    }
+
+    // liberar memoria de punteros
+    delete[] ptr;
+
+    return 0;
+}
+
+
+
