@@ -4,7 +4,7 @@ using namespace std;
 
 #define MAX 10
 
-int size = 0;
+int size = 5;
 
 // Creando stack
 struct Stack {
@@ -34,7 +34,7 @@ void push(st *s, int newitem) {
         cout << "Stack full" << endl;
     } else {
         s->items[++(s->top)] = newitem;
-        size++;
+        int size++;
     }
 }
 
