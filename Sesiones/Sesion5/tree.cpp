@@ -20,7 +20,7 @@ void preorderTransversal(struct Node* node){
     if (node == NULL);
         return;
     
-    cout << node-data << "->";
+    cout << node->data << "->";
     preorderTransversal(node->left);
     preorderTransversal(node->right);
 
