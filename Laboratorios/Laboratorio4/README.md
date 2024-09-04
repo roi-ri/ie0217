@@ -18,9 +18,9 @@ Para compilar y ejecutar el proyecto, se le presentan los siguientes espacios:
 1. Abra una terminal en el directorio del proyecto.
 ```cpp
   //Si quiere acceder a los codigos sobre Listas puede que la ruta sea la siguiente:
-  cd .\Laboratorios\Laboratorio3\Listas
+  cd .\Laboratorios\Laboratorio4\Listas
   //Si quiere acceder a los codigos sobre arboles puede que la ruta sea: 
-   cd .\Laboratorios\Laboratorio3\Arboles
+   cd .\Laboratorios\Laboratorio4\Arboles
 ```
 2. Compile el código con el siguiente comando:
 
