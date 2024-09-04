@@ -40,7 +40,13 @@ Para compilar y ejecutar el proyecto, se le presentan los siguientes espacios:
 
 ## Imagenes sobre la ejecucion de los codigos
 Ejecución del codigo enfocado a Listas
+
+
 ![Ejecución del programa en compu propia](/Pruebas/Listas.jpeg)
 
+
+
 Ejecución del código enfocado a Árboles
+
+
 ![Ejecución del programa en compu propia](/Pruebas/Arboles.jpeg)
