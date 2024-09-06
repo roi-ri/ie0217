@@ -2,7 +2,13 @@
 
 using namespace std; 
 
-//Constructo de la clase Producto inicializa el nombre y precio del producto
+/**
+ * @brief Constructor de la clase `Producto`.
+ * @param nombre Nombre del producto.
+ * @param precio Precio del producto.
+ *
+ * Este constructor inicializa un objeto `Producto` con el nombre y precio proporcionados.
+ */
 Producto::Producto(const string &nombre, double precio ) : nombre(nombre), precio(precio){};
 
 
