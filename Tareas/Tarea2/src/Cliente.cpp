@@ -34,3 +34,7 @@ double Cliente::calcularTotal() const {
 string Cliente::getNombre() const{
     return nombre; 
 }
+
+double Cliente::aplicarDescuento() const {
+    return calcularTotal(); // Implementación por defecto, puede ser sobrescrita
+}
