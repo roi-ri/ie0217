@@ -16,3 +16,6 @@ double Cliente::calcularTotal() const {
     return total;
 }
 
+string Cliente::getNombre() const{
+    return nombre; 
+}

@@ -17,7 +17,8 @@ class Cliente {
         void agregarProducto(Producto* producto);
         double calcularTotal() const; 
         virtual double aplicarDescuento() const; 
-
+        string getNombre() const; 
+        
 
 
 }; 
