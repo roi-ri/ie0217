@@ -9,7 +9,7 @@ using namespace std;
  *
  * Este constructor inicializa un objeto `Producto` con el nombre y precio proporcionados.
  */
-Producto::Producto(const string &nombre, double precio ) : nombre(nombre), precio(precio){};
+Producto::Producto(const string &nombre, double precio) : nombre(nombre), precio(precio){};
 
 
 string Producto::getNombre() const {
