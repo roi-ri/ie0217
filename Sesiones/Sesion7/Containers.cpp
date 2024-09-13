@@ -27,7 +27,7 @@ int main(){
     }
 
     //inicializar el set desordenado de tipo entero
-    unordered_set<int> numbers = {1,  100, 10, 70, 100};
+    unordered_set<int> numbers = {1,  100, 10, 70, 100}; //No permite elementos repetidos dentro de sus datos
     
     // Imprimir el set
     cout << "Los numeros son: ";
