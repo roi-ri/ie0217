@@ -40,7 +40,22 @@ int main() {
     }
 
 
-    
+    //Crear un vector
+    vector<int> vec{1 ,2 ,3 ,4};
+
+    //Crear iteradores del primer y ultimo elelemtno de los vectores
+
+    vector<int>::iterator itr_first = vec.begin();
+    vector<int>::iterator itr_last = vec.end() -1;
+
+    //Mostrar el vector de elementos
+
+    cout << "Primer elemento: " << *itr_first << endl; 
+    cout << "Segundo elemento: " << itr_last[1] << endl; 
+
+    cout << "Segundo ultimo elelemto" << *(itr_last-1) << endl; 
+    cout << "Ultimo elemento: " << *(itr_last) << endl; 
+
 
 
 
