@@ -4,7 +4,7 @@
 
 int main(){
 
-    int num1 = 5;
+    int num1 = 9;
     int num2 = 3; 
     int result = sum(num1, num2);
 
