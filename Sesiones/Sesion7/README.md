@@ -1,4 +1,4 @@
-# Dentro de esta sección se presenta el apartado para la sesión # 6 del curso IE0217.
+# Dentro de esta sección se presenta el apartado para la sesión # 7 del curso IE0217.
 
 
 ### Instrucciones para la ejecución de los programas
