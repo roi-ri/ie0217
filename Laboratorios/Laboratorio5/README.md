@@ -5,7 +5,7 @@
 ## Profesor: Esteban Badilla Alvarado.
 ## Estudiante: Rodrigo Sánchez Araya, C37259.
 
-## Cambiar titulo 
+## Algoritmos de Sorting y benchmark de estos.
 
 ### Archivos del Proyecto
 
