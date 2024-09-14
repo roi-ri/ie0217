@@ -1,57 +1,69 @@
 #include "ListaEnlazada.hpp"
 #include "Cancion.hpp"
 #include <iostream>
+using namespace std; 
 
+
+/**
+ * @brief Función principal del programa.
+ *
+ * Este programa permite al usuario gestionar una lista de canciones. 
+ * Ofrece opciones para insertar, eliminar, modificar e imprimir canciones en una lista enlazada.
+ * La interacción con el usuario se realiza a través de un menú de opciones en la consola.
+ *
+ * @return Código de estado de salida del programa.
+ */
 int main() {
-    ListaEnlazada lista;
+    ListaEnlazada lista; /**< Instancia de la lista enlazada que almacena canciones. */
     
-    int opcion;
-    std::string nombre, artista;
-    double duracion;
+    int opcion; /**< Opción seleccionada por el usuario. */
+
+    string nombre, artista; /**< Nombre de la canción y Nombre del artista de la canción. */
+    double duracion; /**< Duración de la canción en minutos. */
 
     do {
-        std::cout << "\n1. Insertar una nueva canción\n";
-        std::cout << "2. Eliminar una canción\n";
-        std::cout << "3. Modificar una canción\n";
-        std::cout << "4. Imprimir lista de canciones\n";
-        std::cout << "5. Salir\n";
-        std::cout << "Seleccione una opción: ";
-        std::cin >> opcion;
+        cout << "\n1. Insertar una nueva canción\n";
+        cout << "2. Eliminar una canción\n";
+        cout << "3. Modificar una canción\n";
+        cout << "4. Imprimir lista de canciones\n";
+        cout << "5. Salir\n";
+        cout << "Seleccione una opción: ";
+        cin >> opcion;
 
         switch (opcion) {
             case 1: {
-                std::cout << "Ingrese el nombre de la canción: ";
-                std::cin.ignore();
-                std::getline(std::cin, nombre);
-                std::cout << "Ingrese el nombre del artista: ";
-                std::getline(std::cin, artista);
-                std::cout << "Ingrese la duración de la canción (en minutos): ";
-                std::cin >> duracion;
+                cout << "Ingrese el nombre de la canción: ";
+                cin.ignore();
+                getline(cin, nombre);
+                cout << "Ingrese el nombre del artista: ";
+                getline(cin, artista);
+                cout << "Ingrese la duración de la canción (en minutos): ";
+                cin >> duracion;
                 lista.insertarFinal(Cancion(nombre, artista, duracion));
                 break;
             }
             case 2: {
-                std::cout << "Ingrese el nombre de la canción a eliminar: ";
-                std::cin.ignore();
-                std::getline(std::cin, nombre);
+                cout << "Ingrese el nombre de la canción a eliminar: ";
+                cin.ignore();
+                getline(cin, nombre);
                 lista.eliminar(nombre);
                 break;
             }
             case 3: {
-                std::cout << "Ingrese el nombre de la canción a modificar: ";
-                std::cin.ignore();
-                std::getline(std::cin, nombre);
+                cout << "Ingrese el nombre de la canción a modificar: ";
+                cin.ignore();
+                getline(cin, nombre);
                 Nodo* nodo = lista.buscar(nombre);
                 if (nodo) {
-                    std::cout << "Ingrese el nuevo nombre de la canción: ";
-                    std::getline(std::cin, nombre);
-                    std::cout << "Ingrese el nuevo nombre del artista: ";
-                    std::getline(std::cin, artista);
-                    std::cout << "Ingrese la nueva duración de la canción (en minutos): ";
-                    std::cin >> duracion;
+                    cout << "Ingrese el nuevo nombre de la canción: ";
+                    getline(cin, nombre);
+                    cout << "Ingrese el nuevo nombre del artista: ";
+                    getline(cin, artista);
+                    cout << "Ingrese la nueva duración de la canción (en minutos): ";
+                    cin >> duracion;
                     lista.modificar(nodo->cancion.getNombre(), Cancion(nombre, artista, duracion));
                 } else {
-                    std::cout << "Canción no encontrada.\n";
+                    cout << "Canción no encontrada.\n";
                 }
                 break;
             }
@@ -59,10 +71,10 @@ int main() {
                 lista.imprimir();
                 break;
             case 5:
-                std::cout << "Saliendo...\n";
+                cout << "Saliendo...\n";
                 break;
             default:
-                std::cout << "Opción inválida.\n";
+                cout << "Opción inválida.\n";
         }
     } while (opcion != 5);
 

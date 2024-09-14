@@ -1,51 +1,61 @@
 #include "BusquedaArbolBinario.hpp"
 #include <iostream>
+using namespace std; 
 
+/**
+ * @brief Función principal del programa de gestión de un árbol binario de búsqueda.
+ *
+ * Este programa permite al usuario gestionar un árbol binario de búsqueda. 
+ * Ofrece un menú de opciones para insertar, eliminar nodos, imprimir el árbol,
+ * calcular la altura del árbol y verificar si el árbol está balanceado.
+ *
+ * @return Código de estado de salida del programa.
+ */
 int main() {
-    BusquedaBinaria tree;
+    BusquedaBinaria tree; /**< Instancia del árbol binario de búsqueda. */
 
 
 
-    int option, valor;
+    int option, valor; /**< Opción seleccionada por el usuario y Valor para insertar o eliminar en el árbol. */
 
     do {
-        std::cout << "Menú:\n";
-        std::cout << "1. Insertar un nodo\n";
-        std::cout << "2. Eliminar un nodo\n";
-        std::cout << "3. Imprimir el árbol\n";
-        std::cout << "4. Calcular la altura del árbol\n";
-        std::cout << "5. Verificar si el árbol está balanceado\n";
-        std::cout << "6. Salir\n";
-        std::cout << "Seleccione una opción: ";
-        std::cin >> option;
+        cout << "Menú:\n";
+        cout << "1. Insertar un nodo\n";
+        cout << "2. Eliminar un nodo\n";
+        cout << "3. Imprimir el árbol\n";
+        cout << "4. Calcular la altura del árbol\n";
+        cout << "5. Verificar si el árbol está balanceado\n";
+        cout << "6. Salir\n";
+        cout << "Seleccione una opción: ";
+        cin >> option;
 
         switch (option) {
         case 1:
-            std::cout << "Ingrese un valor para insertar: ";
-            std::cin >> valor;
+            cout << "Ingrese un valor para insertar: ";
+            cin >> valor;
             tree.insert(valor);
             break;
         case 2:
-            std::cout << "Ingrese un valor para eliminar: ";
-            std::cin >> valor;
+            cout << "Ingrese un valor para eliminar: ";
+            cin >> valor;
             tree.remove(valor);
             break;
         case 3:
-            std::cout << "Árbol en orden: ";
+            cout << "Árbol en orden: ";
             tree.printInOrder();
             break;
         case 4:
-            std::cout << "Altura del árbol: " << tree.height() << std::endl;
+            cout << "Altura del árbol: " << tree.height() << endl;
             break;
         case 5:
             if (tree.isBalanced()) {
-                std::cout << "El árbol está balanceado.\n";
+                cout << "El árbol está balanceado.\n";
             } else {
-                std::cout << "El árbol no está balanceado.\n";
+                cout << "El árbol no está balanceado.\n";
             }
             break;
         case 6:
-            std::cout << "Saliendo del programa...\n";
+            cout << "Saliendo del programa...\n";
             break;
         }
     } while (option != 6);
