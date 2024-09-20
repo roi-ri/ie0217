@@ -44,7 +44,7 @@ int main(){
 
     //Agarrar cualquier otra excepcion 
 
-    catch(...){
+    catch(...){ //Se utilizan los tres puntitos de manera default 
         cout << "Error inesperado" << endl; 
     }
 
