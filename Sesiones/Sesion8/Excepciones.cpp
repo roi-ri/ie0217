@@ -15,7 +15,7 @@ int main(){
 
     try {
         //Tira una excepcion si el denominador es 0
-        if (denominator == 0) throw 0; 
+        if (denominator == 5) throw 5; 
 
         //No ejecutado si el denominador es 0
         divide = numerator / denominator;
@@ -30,3 +30,5 @@ int main(){
     return 0; 
 
 }
+
+
