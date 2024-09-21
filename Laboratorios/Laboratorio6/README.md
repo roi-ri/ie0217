@@ -45,6 +45,17 @@ El programa realiza las siguientes tareas:
 
 - Manejo de Errores: Captura excepciones para manejar errores como la imposibilidad de abrir el archivo o problemas con las expresiones regulares.
 
+## Error corregido en el programa
+
+
+```bash
+    error: redefinition of 'FileNotFoundException'
+```
+El error es causado por la redefinicion de esta función varias veces en el código. 
+
+Solución al problema: 
+
+- Definir solo una vez: Verificar los Archivos donde existía la funcion y eliminarlo de alguno de los otros archivos en donde está redefinida
 
 ## Imagenes sobre la ejecucion de los codigos
 
