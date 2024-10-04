@@ -248,3 +248,23 @@ clean:
 
  En este ejemplo, el Makefile define cómo compilar diferentes algoritmos de ordenamiento en ejecutables separados.
 
+# discusión datos obtenidos en las gráficas
+
+
+
+Se muestra acontinuación los gráficos obtenidos durante el BenchMark: 
+![alt text](../../Pruebas/GrafosTarea4.png)
+
+Para el Bubble sort se sabe que, la complejidad es O(n^2) y se puede ver en los gráficos que es correcto con un exponente en la x que es casi 2. De igual manera para con el insertion sort y selection sort. En contraparte, el Quick sort y el SLT sort trabajan como un O(n log n) donde se puede ver que, lo obtenido en las graficas es casi lineal más no al 100% por el tipo de ajuste que llegan a presentar, esto dejando interpretar que si tiene ese comportamiento esperado.
+
+
+
+En resumen: 
+
+| Algoitmo     | Complejidad Esperada | Complejidad obtenida con gráfica |
+|-----------------|-----------------|---------------|
+| Bubble Sort     | O(n^2)          |  $y = 4\cdot10^{-06}x^{1,9877}$        |
+| Selection Sort  | O(n^2)          |    $y = 1\cdot10^{-06}x^{2,0233}$           |
+| Insertion Sort  | O(n^2)          |    $y = 7\cdot10^{-07}x^{2,0194}$           |
+| Quick Sort      | O(n log n)      |       $y = 0,0002x - 0,947$        |
+| SLT Sort        | O(n log n)      |       $y = 510^{-05}x - 0,9327$        |
