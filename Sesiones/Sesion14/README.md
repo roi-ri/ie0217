@@ -10,11 +10,10 @@
 cd /ie0217/Sesiones/Sesion14
 ```
 
-2. 
+2. Para la ejecucion del programa escriba o copie el siguiente comando en su termianl: 
 
-```cpp
-
-
+```bash
+    g++ -std=c++20 -pthread -o main  PrograParalelConcurr.cpp
 ```
 
 
