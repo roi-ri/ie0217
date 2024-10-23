@@ -23,6 +23,7 @@ std::barrier sync_point(3);
 //Recibe como parametro el id de la tarea para distinguir entre los hilos
 void perform_task(int id) {
     {
+        // Se bloquea la accion que tiene dentro de los corchetes donde se ecuentra
         // Bloqueo para asegurar que la salida no se mezcle
         // Para bloquear el mutex y que solo un hilo imprima en la consola a la vez
         std::lock_guard<std::mutex> lock(console_mutex);
@@ -48,6 +49,7 @@ void perform_task(int id) {
     sync_point.arrive_and_wait();
 
     {
+        // Se bloquea la accion que tiene dentro de los corchetes donde se ecuentra
         // Bloqueo para asegurar que la salida no se mezcle
         // Cuando las tareas pasan la barrera, continúa con el "trabajo final"
         std::lock_guard<std::mutex> lock(console_mutex);
@@ -59,6 +61,7 @@ void perform_task(int id) {
     std::this_thread::sleep_for(std::chrono::milliseconds(50 * id));
 
     {
+        // Se bloquea la accion que tiene dentro de los corchetes donde se ecuentra
         // Bloqueo para asegurar que la salida no se mezcle
         std::lock_guard<std::mutex> lock(console_mutex);
         // Imprime que la tarea ya termino ggs. 
