@@ -1,7 +1,7 @@
 #ifndef FUNCIONES_HPP
 #define FUNCIONES_HPP
 
-#include "Publicacion.hpp"
+#include "Publicaciones.hpp"
 #include <bsoncxx/json.hpp>
 #include <mongocxx/client.hpp>
 #include <mongocxx/instance.hpp>

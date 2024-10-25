@@ -3,7 +3,7 @@
 #include <bsoncxx/json.hpp>
 #include <mongocxx/instance.hpp>
 #include <mongocxx/uri.hpp>
-#include "Publicacion.hpp"
+#include "Publicaciones.hpp"
 #include "Funciones.hpp"
 
 using namespace std; 
