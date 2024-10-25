@@ -241,4 +241,141 @@ string nombreEscuela;
     sqlite3_finalize(stmt);   
 }
 
+void ActualizarEstadoResena(sqlite3*db){
+    const char *sql = "SELECT P.NOMBRE AS Profesor, "
+                      "       C.NOMBRE_CURSO AS Curso, "
+                      "       R.COMENTARIO AS Comentario "
+                      "FROM RESENAS R "
+                      "JOIN PROFESOR P ON R.ID_PROFESOR = P.ID_PROFESOR "
+                      "JOIN CURSOS C ON R.ID_CURSO = C.ID_CURSO "
+                      "WHERE R.REVISADO = 0;";
+
+    sqlite3_stmt *stmt;
+
+    if (sqlite3_prepare_v2(db, sql, -1, &stmt, nullptr) == SQLITE_OK) {
+        bool found = false;
+        cout << "Profesor\tCurso\t\tComentario\n";
+        cout << "-------------------------------------------\n";
+
+        while (sqlite3_step(stmt) == SQLITE_ROW) {
+            const unsigned char *nombreProfesor = sqlite3_column_text(stmt, 0);
+            const unsigned char *nombreCurso = sqlite3_column_text(stmt, 1);
+            const unsigned char *comentario = sqlite3_column_text(stmt, 2);
+
+            cout << nombreProfesor << "\t" << nombreCurso << "\t" << comentario << endl;
+            found = true;
+        }
+
+        if (!found) {
+            cout << "No hay reseñas pendientes de revisión.\n";
+        }
+    } else {
+        cerr << "Error en la preparación de la consulta.\n";
+    }
+
+    sqlite3_finalize(stmt);
+    
+}
+
+void BuscarTopProfe(sqlite3*db){
+    const char *sql = "SELECT P.NOMBRE AS Profesor, "
+                      "       P.ESCUELA AS Escuela, "
+                      "       AVG(R.CALIFICACION) AS Promedio_Calificacion "
+                      "FROM PROFESOR P "
+                      "JOIN CURSOS C ON P.ID_PROFESOR = C.ID_PROFESOR "
+                      "JOIN RESENAS R ON C.ID_CURSO = R.ID_CURSO "
+                      "GROUP BY P.ID_PROFESOR "
+                      "ORDER BY Promedio_Calificacion DESC;";
+
+    sqlite3_stmt *stmt;
+
+    if (sqlite3_prepare_v2(db, sql, -1, &stmt, nullptr) == SQLITE_OK) {
+        cout << "Profesor\tEscuela\t\tPromedio Calificación\n";
+        cout << "--------------------------------------------------\n";
+        bool found = false;
+
+        while (sqlite3_step(stmt) == SQLITE_ROW) {
+            const unsigned char *nombreProfesor = sqlite3_column_text(stmt, 0);
+            const unsigned char *escuela = sqlite3_column_text(stmt, 1);
+            double promedioCalificacion = sqlite3_column_double(stmt, 2);
+
+            cout << nombreProfesor << "\t" << escuela << "\t" << promedioCalificacion << endl;
+            found = true;
+        }
+
+        if (!found) {
+            cout << "No se encontraron profesores con calificaciones.\n";
+        }
+    } else {
+        cerr << "Error en la preparación de la consulta.\n";
+    }
+
+    sqlite3_finalize(stmt);   
+}
+
+void EliminarResena(sqlite3*db){
+int idResena; // Variable para almacenar el ID de la reseña
+    cout << "Introduce el ID de la reseña a eliminar: ";
+    cin >> idResena; // Solicita al usuario el ID de la reseña
+
+    const char *sql = "DELETE FROM RESENAS WHERE ID_RESENA = ?;";
+    sqlite3_stmt *stmt;
+
+    // Prepara la consulta
+    if (sqlite3_prepare_v2(db, sql, -1, &stmt, nullptr) == SQLITE_OK) {
+        sqlite3_bind_int(stmt, 1, idResena); // Vincula el ID a la consulta
+
+        // Ejecuta la consulta
+        if (sqlite3_step(stmt) == SQLITE_DONE) {
+            cout << "Reseña con ID " << idResena << " eliminada correctamente.\n";
+        } else {
+            cerr << "Error al eliminar la reseña.\n";
+        }
+    } else {
+        cerr << "Error en la preparación de la consulta de eliminación.\n";
+    }
+
+    // Finaliza el uso de la declaración
+    sqlite3_finalize(stmt);    
+}
+
+void ConsultResenaPositiv(sqlite3*db){
+    const char *sql = "SELECT P.NOMBRE AS Profesor, "
+                      "       C.NOMBRE_CURSO AS Curso, "
+                      "       R.COMENTARIO AS Comentario, "
+                      "       R.CALIFICACION AS 'Calificación', "
+                      "       R.DIFICULTAD AS 'Dificultad' "
+                      "FROM RESENAS R "
+                      "JOIN PROFESOR P ON R.ID_PROFESOR = P.ID_PROFESOR "
+                      "JOIN CURSOS C ON R.ID_CURSO = C.ID_CURSO "
+                      "WHERE R.CALIFICACION >= 4 AND R.DIFICULTAD < 3;";
+
+    sqlite3_stmt *stmt;
+
+    if (sqlite3_prepare_v2(db, sql, -1, &stmt, nullptr) == SQLITE_OK) {
+        cout << "Profesor\tCurso\t\tComentario\t\tCalificación\tDificultad\n";
+        cout << "--------------------------------------------------------------------------\n";
+        bool found = false;
+
+        while (sqlite3_step(stmt) == SQLITE_ROW) {
+            const unsigned char *nombreProfesor = sqlite3_column_text(stmt, 0);
+            const unsigned char *nombreCurso = sqlite3_column_text(stmt, 1);
+            const unsigned char *comentario = sqlite3_column_text(stmt, 2);
+            int calificacion = sqlite3_column_int(stmt, 3);
+            int dificultad = sqlite3_column_int(stmt, 4);
+
+            cout << nombreProfesor << "\t" << nombreCurso << "\t" << comentario 
+                 << "\t" << calificacion << "\t\t" << dificultad << endl;
+            found = true;
+        }
+
+        if (!found) {
+            cout << "No se encontraron reseñas con calificación >= 4 y dificultad < 3.\n";
+        }
+    } else {
+        cerr << "Error en la preparación de la consulta.\n";
+    }
+
+    sqlite3_finalize(stmt);
+}
 
