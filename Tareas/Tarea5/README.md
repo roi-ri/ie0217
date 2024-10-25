@@ -1,5 +1,5 @@
 <h1 style="text-align: center;">
-    Tarea 4 <br><br>
+    Tarea 5 <br><br>
     Estructuras de Datos y Algoritmos para Ingeniería
 </h1>
 
@@ -10,6 +10,52 @@
 
 ## Instrucciones para Ejecución de los Programas
 
+
+1. **Preparar el Entorno:**
+   - **Para Windows:**
+     - Se debe tener un compilador compatible con `g++` instalado.
+     - Abrir una ventana de comandos (cmd) o PowerShell.
+   - **Para Linux:**
+     - Asegúrese de tener instalado `g++` y `make`. En la mayoría de las distribuciones, puedes instalarlos con:
+       ```bash
+       sudo apt-get install build-essential 
+       ```
+     - Abrir la terminal.
+
+2. **Ubicación**
+    - Navegue hasta el directorio donde se encuentra el `Makefile` utilizando el comando `cd`:
+     ```bash
+        # En este caso, puede que la ruta sea la siguiente:
+        cd ./ie0217/Tareas/Tarea5/
+     ```
+4. **Ejecución del programa**
+- Ejecute el comando ``make`` para crear los ejecutables de los programas, en caso de que quiera ejecutarlos manualmente: 
+
+```bash
+cd ./Ejecutables
+
+# Posteriormente: 
+
+# Si quiere ejecutar el archivo del Sistema de publicaciones
+
+./SistemaPubliRedSocial
+
+# Si quiere ejecutar el archivo del Sistema de resenas de profesores y cursos
+
+./SistemaResenProfyCursos
+
+```
+
+- En caso contrario puede ejecutar directamente desde Tarea5: 
+
+```bash
+# Para el sistema de Red social
+make run_pubred
+
+# Para el sistema de Resenas de Profesores
+
+make run_rescp
+```
 
 
 
@@ -107,37 +153,120 @@ WHERE categoria = 'Hogar' AND en_stock = true;
 18. **¿Cuáles son las principales diferencias en el rendimiento y escalabilidad entre bases de datos SQL y NoSQL?**
 **R/** Las bases de datos SQL suelen escalar verticalmente y priorizan la consistencia y transacciones ACID, mientras que las NoSQL escalan horizontalmente y priorizan flexibilidad y velocidad, siendo más adecuadas para aplicaciones distribuidas y de gran volumen de datos.
 
+## Ejecución del Makefile
+![Ejecución Makefile](../../Pruebas/EjecucionMakeT5.png)
 
 ## Sistema de Reseñas de Cursos y Profesores
 
+Para este sistema de reseñas lo que se plantea a la hora de resolverlo es, realizar la implementacino de 3 tablas como solicita el ejercicio, en primer lugar pues realizar una especie de gerarquía que empieza con la tabla de profesores que se asocia a la de cursos mediante su foreing key y por ultimo a la de reseñas con esta misma idea, como si fuera una especie de lista enlazada entre tablas. 
+
+Para la inserción de datos dentro de la base de datos se realiza la siguiente metodología de ingresar datos mediante la db por terminal: 
+
+![ingreso de Datos a la DB](../../Pruebas/AddDatosDBT5.png)
+
+Primera ejecución del programa: 
+
+![alt text](../../Pruebas/1PrimeraEjecT5.png)
+
 ### Filtrado por curso y escuela
+
+Se permite al usuario ingresar el nombre de una escuela y muestra los cursos de esta escuela ordenados por promedio de calificación (de mayor a menor) y luego por dificultad (de menor a mayor).
+
+-> Se solicita el nombre de la escuela y se prepara una consulta SQL que una las tablas de cursos, reseñas y profesores. 
+-> La función ejecuta la consulta y muestra los resultados en un formato tabular. Si no se encuentran cursos, se informa al usuario. 
+-> Se liberan los recursos utilizados por la declaración preparada.
+
+
+
+![alt text](../../Pruebas/1CasoCorrecto4T5.png)
+
+
 ### Consulta y Ordenamiento por Calificación y Dificultad
+
+Se permite al usuario ingresar el nombre de una escuela y muestra los cursos de esta escuela junto con su promedio de calificación y promedio de dificultad.
+
+-> Se solicita el nombre de la escuela y se prepara una consulta SQL que une las tablas de cursos, reseñas y profesores.
+-> La función ejecuta la consulta y muestra los resultados en un formato tabular, ordenados por promedio de calificación (de mayor a menor) y luego por promedio de dificultad (de menor a mayor). Si no se encuentran cursos, se informa al usuario.
+-> Se liberan los recursos utilizados por la declaración preparada.
+
+En este caso es la opción 7 del menú, ejecución: 
+
+![alt text](../../Pruebas/1TopPorfT5.png)
+
+
+
 
 ### Búsqueda de Reseñas no Revisadas
 
+Se permite al usuario visualizar las reseñas no revisadas junto con la información del profesor y el curso asociado.
+
+-> Se prepara una consulta SQL que une las tablas de reseñas, profesores y cursos para seleccionar las reseñas que no han sido revisadas.
+-> La función ejecuta la consulta y muestra los resultados en un formato tabular que incluye el nombre del profesor, el curso correspondiente y el comentario de la reseña. Si no hay reseñas pendientes de revisión, se informa al usuario.
+-> Se liberan los recursos utilizados por la declaración preparada.
+
+En este caso es la opción 6 del menú, ejecución: 
+
+![alt text](../../Pruebas/1Tarea5.png)
+
 ### Actualización de Estado de Reseñas
+
+La función permite al usuario buscar reseñas que no han sido revisadas y actualizar su estado a "revisada".
+
+-> Se ejecuta una consulta SQL para seleccionar las reseñas no revisadas de la base de datos, mostrando el ID y el texto de cada reseña.
+-> Si se encuentran reseñas, se solicita al usuario el ID de la reseña que desea actualizar.
+-> La función ejecuta otra consulta para actualizar el estado de la reseña seleccionada a revisada.
+-> Si no hay reseñas no revisadas, se informa al usuario mediante un mensaje.
+-> Se liberan los recursos utilizados por las declaraciones preparadas.
+
+En este caso es la opción 8 del menú, ejecución: 
+![alt text](../../Pruebas/1T5Revisada.png)
 
 ### Consulta con Filtración Compleja y Alias
 
+![alt text](../../Pruebas/ConsultaPromEscuelaT5.png)
+
 ### Consulta para Eliminar Reseñas
 
+![alt text](../../Pruebas/1EliminResena.png)
 
 
+### Salir del programa
 
+![alt text](../../Pruebas/1T5Salir.png)
 
 ## Sistema de Publicaciones en Red Social
+Este programa gestiona publicaciones en una colección de MongoDB. Proporciona funciones para:
 
-### Insertar una Publicación
+-> Insertar: Añadir nuevas publicaciones.
+-> Consultar: Recuperar publicaciones, ordenándolas por fecha o filtrando por autor.
+-> Actualizar: Modificar el contenido de publicaciones existentes.
+-> Eliminar: Borrar publicaciones específicas.
+-> Marcar como Destacada: Actualizar el estado de una publicación como destacada o no.
+-> El programa utiliza la biblioteca mongocxx para interactuar con la base de datos y maneja excepciones para asegurar robustez.
 
-### Consultar Publicaciones
-#### Consultar todas las publicaciones
+
+### Insertar una Publicación y consulta de publicaciones:
+
+![Inserción de una publicación](../../Pruebas/1Ejec2T5.png)
+
 #### Consultar publicaciones por autor
-#### Ordenr Publicaciones por fecha
 
-### Agregar Comentario a una Publicación
+Se agregan mas publicaciones para poder hacer la busqueda por autor: 
+
+![alt text](../../Pruebas/1T5MasOps.png)
+
+Busqueda de Aaron: 
+
+![alt text](../../Pruebas/1ConsultAutorT5.png)
 
 ### Actualizar Contenido de una Publicación
 
+![alt text](../../Pruebas/1ActualizarT5.png)
 ### Eliminar una Publicación
 
+![alt text](../../Pruebas/1EliminarT5.png)
+
 ### Marcar Publicación como Destacada
+Se marca como destacada: 
+
+![alt text](../../Pruebas/1T5Destac.png)
