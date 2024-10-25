@@ -29,7 +29,6 @@ void IngresarProfesor(sqlite3*db){
     sqlite3_finalize(stmt); 
 }
 
-
 void IngresarCurso(sqlite3*db){
     string nombreCurso; 
     int idProfesor; 
@@ -83,4 +82,163 @@ void IngresarCurso(sqlite3*db){
 
     sqlite3_finalize(stmt);
 }
+
+void IngresarResena(sqlite3* db) {
+    int idProfesor, idCurso, calificacion, dificultad;
+    string comentario;
+
+    cout << "Ingrese el ID del profesor:\n";
+    cin >> idProfesor;
+    cout << "Ingrese el ID del curso:\n";
+    cin >> idCurso;
+    cout << "Ingrese la calificación (1 a 5):\n";
+    cin >> calificacion;
+    cout << "Ingrese la dificultad (1 a 5):\n";
+    cin >> dificultad;
+    cin.ignore();  // Ignorar salto de línea después de la entrada numérica
+    cout << "Ingrese el comentario (opcional):\n";
+    getline(cin, comentario);
+
+    // Verificar si el ID del profesor existe
+    const char *checkProfesorSql = "SELECT COUNT(*) FROM PROFESOR WHERE ID_PROFESOR = ?;";
+    sqlite3_stmt *checkProfesorStmt;
+
+    if (sqlite3_prepare_v2(db, checkProfesorSql, -1, &checkProfesorStmt, nullptr) == SQLITE_OK) {
+        sqlite3_bind_int(checkProfesorStmt, 1, idProfesor);
+
+        if (sqlite3_step(checkProfesorStmt) == SQLITE_ROW && sqlite3_column_int(checkProfesorStmt, 0) == 0) {
+            cerr << "Error: El ID del profesor no existe.\n";
+            sqlite3_finalize(checkProfesorStmt);
+            return;
+        }
+    } else {
+        cerr << "Error en la preparación de la consulta de verificación del profesor.\n";
+        sqlite3_finalize(checkProfesorStmt);
+        return;
+    }
+    sqlite3_finalize(checkProfesorStmt);
+
+    // Verificar si el ID del curso existe
+    const char *checkCursoSql = "SELECT COUNT(*) FROM CURSOS WHERE ID_CURSO = ?;";
+    sqlite3_stmt *checkCursoStmt;
+
+    if (sqlite3_prepare_v2(db, checkCursoSql, -1, &checkCursoStmt, nullptr) == SQLITE_OK) {
+        sqlite3_bind_int(checkCursoStmt, 1, idCurso);
+
+        if (sqlite3_step(checkCursoStmt) == SQLITE_ROW && sqlite3_column_int(checkCursoStmt, 0) == 0) {
+            cerr << "Error: El ID del curso no existe.\n";
+            sqlite3_finalize(checkCursoStmt);
+            return;
+        }
+    } else {
+        cerr << "Error en la preparación de la consulta de verificación del curso.\n";
+        sqlite3_finalize(checkCursoStmt);
+        return;
+    }
+    sqlite3_finalize(checkCursoStmt);
+
+    // Insertar reseña en la tabla RESENAS
+    const char *sql = "INSERT INTO RESENAS (ID_PROFESOR, ID_CURSO, CALIFICACION, DIFICULTAD, COMENTARIO) VALUES (?, ?, ?, ?, ?);";
+    sqlite3_stmt *stmt;
+
+    if (sqlite3_prepare_v2(db, sql, -1, &stmt, nullptr) == SQLITE_OK) {
+        sqlite3_bind_int(stmt, 1, idProfesor);
+        sqlite3_bind_int(stmt, 2, idCurso);
+        sqlite3_bind_int(stmt, 3, calificacion);
+        sqlite3_bind_int(stmt, 4, dificultad);
+        sqlite3_bind_text(stmt, 5, comentario.c_str(), -1, SQLITE_STATIC);
+
+        if (sqlite3_step(stmt) == SQLITE_DONE) {
+            cout << "Reseña agregada correctamente.\n";
+        } else {
+            cerr << "Error al insertar la reseña.\n";
+        }
+    } else {
+        cerr << "Error en la preparación de la consulta de inserción de reseña.\n";
+    }
+
+    sqlite3_finalize(stmt);
+}
+
+void BuscarProfeCE(sqlite3*db){
+    string nombreCurso, nombreEscuela; 
+
+    cout << "Ingrese el nombre del curso: \n"; 
+    getline(cin, nombreCurso); 
+
+    cout << "Ingrese el nombre de la escuela a la que pertenece el profesor:\n"; 
+    getline(cin,nombreEscuela); 
+
+    const char *sql = "SELECT p.NOMBRE " 
+                      "FROM PROFESOR.p "
+                      "JOIN CURSOS C ON P.ID_PROFESOR = C.ID_PROFESOR "
+                      "WHERE C.NOMBRE_CURSO = ? AND P.ESCUELA + ?; "; 
+
+    sqlite3_stmt *stmt; 
+
+    if (sqlite3_prepare_v2(db, sql, -1, &stmt, nullptr) == SQLITE_OK) {
+        sqlite3_bind_text(stmt, 1, nombreCurso.c_str(), -1, SQLITE_STATIC);
+        sqlite3_bind_text(stmt, 2, nombreEscuela.c_str(), -1, SQLITE_STATIC);
+
+        bool found = false;
+        while (sqlite3_step(stmt) == SQLITE_ROW) {
+            const unsigned char *nombreProfesor = sqlite3_column_text(stmt, 0);
+            cout << "Profesor encontrado: " << nombreProfesor << endl;
+            found = true;
+        }
+
+        if (!found) {
+            cout << "No se encontró ningún profesor para el curso y escuela especificados.\n";
+        }
+    } else {
+        cerr << "Error en la preparación de la consulta.\n";
+    }
+
+    sqlite3_finalize(stmt);
+}
+
+void MostrarTopProfes(sqlite3*db){
+string nombreEscuela;
+
+    cout << "Ingrese el nombre de la escuela:\n";
+    getline(cin, nombreEscuela);
+
+    const char *sql = "SELECT C.NOMBRE_CURSO, "
+                      "       AVG(R.CALIFICACION) AS Promedio_Calificacion, "
+                      "       AVG(R.DIFICULTAD) AS Promedio_Dificultad "
+                      "FROM CURSOS C "
+                      "JOIN RESENAS R ON C.ID_CURSO = R.ID_CURSO "
+                      "JOIN PROFESOR P ON P.ID_PROFESOR = C.ID_PROFESOR "
+                      "WHERE P.ESCUELA = ? "
+                      "GROUP BY C.NOMBRE_CURSO "
+                      "ORDER BY Promedio_Calificacion DESC, Promedio_Dificultad ASC;";
+
+    sqlite3_stmt *stmt;
+
+    if (sqlite3_prepare_v2(db, sql, -1, &stmt, nullptr) == SQLITE_OK) {
+        sqlite3_bind_text(stmt, 1, nombreEscuela.c_str(), -1, SQLITE_STATIC);
+
+        bool found = false;
+        cout << "Curso\t\tPromedio Calificación\tPromedio Dificultad\n";
+        cout << "----------------------------------------------------------\n";
+
+        while (sqlite3_step(stmt) == SQLITE_ROW) {
+            const unsigned char *nombreCurso = sqlite3_column_text(stmt, 0);
+            double promedioCalificacion = sqlite3_column_double(stmt, 1);
+            double promedioDificultad = sqlite3_column_double(stmt, 2);
+
+            cout << nombreCurso << "\t\t" << promedioCalificacion << "\t\t" << promedioDificultad << endl;
+            found = true;
+        }
+
+        if (!found) {
+            cout << "No se encontraron cursos para la escuela especificada.\n";
+        }
+    } else {
+        cerr << "Error en la preparación de la consulta.\n";
+    }
+
+    sqlite3_finalize(stmt);   
+}
+
 
