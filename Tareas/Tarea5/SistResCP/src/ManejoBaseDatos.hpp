@@ -26,9 +26,7 @@ void BuscarTopProfe(sqlite3*db);
 
 void EliminarResena(sqlite3*db);
 
-void ImprimirTablas(sqlite3*db); 
-// quiero mostrar de alguna manera los datos que se tienen en la base de datos para asi poder ver ids
-
+void ConsultResenaPositiv(sqlite3*db); 
 
 
 
