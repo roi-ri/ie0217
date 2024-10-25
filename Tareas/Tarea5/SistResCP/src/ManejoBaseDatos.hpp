@@ -18,7 +18,7 @@ void BuscarProfeCE(sqlite3*db);
 
 void MostrarTopProfes(sqlite3*db); 
 
-void BuscarresenaNoRev(sqlite3*db);
+void BuscaresenaNoRev(sqlite3*db);
 
 void ActualizarEstadoResena(sqlite3*db); 
 

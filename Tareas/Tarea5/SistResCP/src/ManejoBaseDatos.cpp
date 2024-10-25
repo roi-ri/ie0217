@@ -1,5 +1,15 @@
 #include "ManejoBaseDatos.hpp"
 
+/**
+ * @brief Inserta un nuevo profesor en la tabla PROFESOR de la base de datos.
+ *
+ * Solicita al usuario el nombre del profesor y la escuela a la que pertenece, y 
+ * luego inserta estos datos en la base de datos. Genera un ID único para el profesor 
+ * automáticamente.
+ *
+ * @param db Puntero a la base de datos SQLite.
+ * @return No retorna un valor, pero muestra un mensaje de éxito o error en la consola.
+ */
 void IngresarProfesor(sqlite3*db){
 
     string nombre, escuela; 
@@ -29,6 +39,15 @@ void IngresarProfesor(sqlite3*db){
     sqlite3_finalize(stmt); 
 }
 
+/**
+ * @brief Inserta un nuevo curso en la tabla CURSOS de la base de datos, asociado a un profesor.
+ *
+ * Pide al usuario el nombre del curso y el ID del profesor que lo imparte. Verifica que el
+ * ID del profesor exista en la base de datos antes de insertar el curso, evitando referencias no válidas.
+ *
+ * @param db Puntero a la base de datos SQLite.
+ * @return No retorna un valor, pero muestra un mensaje de éxito o error en la consola.
+ */
 void IngresarCurso(sqlite3*db){
     string nombreCurso; 
     int idProfesor; 
@@ -83,6 +102,15 @@ void IngresarCurso(sqlite3*db){
     sqlite3_finalize(stmt);
 }
 
+/**
+ * @brief Inserta una nueva reseña en la tabla RESENAS, vinculada a un profesor y un curso específicos.
+ *
+ * Recibe la calificación y dificultad (ambas en rango 1-5) junto con un comentario opcional.
+ * Antes de realizar la inserción, verifica la existencia de los IDs de profesor y curso en la base de datos.
+ *
+ * @param db Puntero a la base de datos SQLite.
+ * @return No retorna un valor, pero muestra un mensaje de éxito o error en la consola.
+ */
 void IngresarResena(sqlite3* db) {
     int idProfesor, idCurso, calificacion, dificultad;
     string comentario;
@@ -160,6 +188,15 @@ void IngresarResena(sqlite3* db) {
     sqlite3_finalize(stmt);
 }
 
+/**
+ * @brief Busca un profesor según el curso que imparte y la escuela a la que pertenece.
+ *
+ * Permite al usuario buscar a un profesor ingresando el nombre del curso y el nombre de la escuela.
+ * Muestra el nombre del profesor si se encuentra un resultado que coincide.
+ *
+ * @param db Puntero a la base de datos SQLite.
+ * @return No retorna un valor, pero muestra en la consola el nombre del profesor encontrado o un mensaje si no hay coincidencias.
+ */
 void BuscarProfeCE(sqlite3*db){
     string nombreCurso, nombreEscuela; 
 
@@ -197,6 +234,15 @@ void BuscarProfeCE(sqlite3*db){
     sqlite3_finalize(stmt);
 }
 
+/**
+ * @brief Muestra una lista de los cursos de una escuela, ordenada por calificación y dificultad.
+ *
+ * Permite al usuario ingresar el nombre de una escuela y muestra los cursos de esta escuela
+ * ordenados por promedio de calificación (de mayor a menor) y luego por dificultad (de menor a mayor).
+ *
+ * @param db Puntero a la base de datos SQLite.
+ * @return No retorna un valor, pero muestra la lista de cursos junto con sus promedios de calificación y dificultad.
+ */
 void MostrarTopProfes(sqlite3*db){
 string nombreEscuela;
 
@@ -241,6 +287,15 @@ string nombreEscuela;
     sqlite3_finalize(stmt);   
 }
 
+/**
+ * @brief Muestra reseñas de cursos que aún no han sido revisadas.
+ *
+ * Muestra los nombres del profesor, curso y el comentario de la reseña que no ha sido marcada
+ * como revisada, permitiendo identificar aquellas pendientes de revisión.
+ *
+ * @param db Puntero a la base de datos SQLite.
+ * @return No retorna un valor, pero muestra las reseñas pendientes de revisión en la consola.
+ */
 void ActualizarEstadoResena(sqlite3*db){
     const char *sql = "SELECT P.NOMBRE AS Profesor, "
                       "       C.NOMBRE_CURSO AS Curso, "
@@ -277,6 +332,15 @@ void ActualizarEstadoResena(sqlite3*db){
     
 }
 
+/**
+ * @brief Muestra los profesores con mejor calificación promedio en sus cursos.
+ *
+ * Ordena a los profesores de la base de datos por el promedio de sus calificaciones, permitiendo
+ * visualizar a los mejor valorados. Incluye el nombre del profesor, la escuela y su calificación promedio.
+ *
+ * @param db Puntero a la base de datos SQLite.
+ * @return No retorna un valor, pero muestra en la consola el listado de profesores con sus calificaciones.
+ */
 void BuscarTopProfe(sqlite3*db){
     const char *sql = "SELECT P.NOMBRE AS Profesor, "
                       "       P.ESCUELA AS Escuela, "
@@ -313,6 +377,15 @@ void BuscarTopProfe(sqlite3*db){
     sqlite3_finalize(stmt);   
 }
 
+/**
+ * @brief Elimina una reseña específica de la tabla RESENAS.
+ *
+ * Solicita al usuario el ID de la reseña que desea eliminar. Si el ID existe, la reseña se
+ * elimina de la base de datos. Este proceso permite eliminar opiniones ya no relevantes o incorrectas.
+ *
+ * @param db Puntero a la base de datos SQLite.
+ * @return No retorna un valor, pero muestra un mensaje de éxito o error en la consola.
+ */
 void EliminarResena(sqlite3*db){
 int idResena; // Variable para almacenar el ID de la reseña
     cout << "Introduce el ID de la reseña a eliminar: ";
@@ -339,6 +412,17 @@ int idResena; // Variable para almacenar el ID de la reseña
     sqlite3_finalize(stmt);    
 }
 
+
+/**
+ * @brief Consulta las reseñas con calificación alta y dificultad baja para un profesor y curso específicos.
+ *
+ * Realiza una consulta que selecciona únicamente las reseñas con una calificación de 4 o superior
+ * y una dificultad inferior a 3. Este filtro ayuda a identificar cursos bien valorados que no se
+ * consideran excesivamente difíciles.
+ *
+ * @param db Puntero a la base de datos SQLite.
+ * @return No retorna un valor, pero muestra en la consola las reseñas que cumplen los criterios.
+ */
 void ConsultResenaPositiv(sqlite3*db){
     const char *sql = "SELECT P.NOMBRE AS Profesor, "
                       "       C.NOMBRE_CURSO AS Curso, "
@@ -378,4 +462,3 @@ void ConsultResenaPositiv(sqlite3*db){
 
     sqlite3_finalize(stmt);
 }
-
