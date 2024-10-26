@@ -43,6 +43,23 @@ sqlite3 *connectToDatabase(const string &dbName) {
     return db;
 }
 
+
+bool checkTableExists(sqlite3* db, const string& tableName) {
+    string query = "SELECT name FROM sqlite_master WHERE type='table' AND name='" + tableName + "';";
+    sqlite3_stmt* stmt;
+
+    rc = sqlite3_prepare_v2(db, query.c_str(), -1, &stmt, nullptr);
+    if (rc != SQLITE_OK) {
+        cerr << "Error al preparar la consulta: " << sqlite3_errmsg(db) << endl;
+        return false;
+    }
+
+    bool exists = sqlite3_step(stmt) == SQLITE_ROW; // Verifica si hay resultados
+
+    sqlite3_finalize(stmt); // Libera la memoria del statement
+    return exists;
+}
+
 /**
  * @brief Crea las tablas en la base de datos.
  *
@@ -53,50 +70,65 @@ sqlite3 *connectToDatabase(const string &dbName) {
  * @param db Puntero a la base de datos donde se crearán las tablas.
  */
 void createProfeTable(sqlite3* db) {
-    // Tabla Profesor
-    const char *sqlProfe = "CREATE TABLE IF NOT EXISTS PROFESOR ("
-                           "ID_PROFESOR INTEGER PRIMARY KEY AUTOINCREMENT,"
-                           "NOMBRE CHAR(100),"
-                           "ESCUELA CHAR(100));";          
-    rc = sqlite3_exec(db, sqlProfe, callback, 0, &errMSG);
-    if(rc != SQLITE_OK) {
-        cerr << "SQL error: " << errMSG << endl; 
-        sqlite3_free(errMSG);
+    // Verifica si la tabla PROFESOR existe
+    if (!checkTableExists(db, "PROFESOR")) {
+        // Tabla Profesor
+        const char *sqlProfe = "CREATE TABLE IF NOT EXISTS PROFESOR ("
+                               "ID_PROFESOR INTEGER PRIMARY KEY AUTOINCREMENT,"
+                               "NOMBRE CHAR(100),"
+                               "ESCUELA CHAR(100));";          
+        rc = sqlite3_exec(db, sqlProfe, callback, 0, &errMSG);
+        if(rc != SQLITE_OK) {
+            cerr << "SQL error: " << errMSG << endl; 
+            sqlite3_free(errMSG);
+        } else {
+            cout << "Tabla \"Profesor\" creada correctamente" << endl;
+        }
     } else {
-        cout << "Tabla \"Profesor\" creada correctamente" << endl;
+        cout << "Tabla \"Profesor\" ya existe. Accediendo a ella." << endl;
     }
 
-    // Tabla Curso
-    const char *sqlCursos = "CREATE TABLE IF NOT EXISTS CURSOS ("
-                            "ID_CURSO INTEGER PRIMARY KEY AUTOINCREMENT,"
-                            "NOMBRE_CURSO TEXT,"
-                            "ID_PROFESOR INTEGER,"
-                            "FOREIGN KEY (ID_PROFESOR) REFERENCES PROFESOR(ID_PROFESOR) ON DELETE CASCADE);";      
-    rc = sqlite3_exec(db, sqlCursos, callback, 0, &errMSG);
-    if(rc != SQLITE_OK) {
-        cerr << "SQL error: " << errMSG << endl; // Usar errMSG directamente
-        sqlite3_free(errMSG);
+    // Verifica si la tabla CURSOS existe
+    if (!checkTableExists(db, "CURSOS")) {
+        // Tabla Curso
+        const char *sqlCursos = "CREATE TABLE IF NOT EXISTS CURSOS ("
+                                "ID_CURSO INTEGER PRIMARY KEY AUTOINCREMENT,"
+                                "NOMBRE_CURSO TEXT,"
+                                "ID_PROFESOR INTEGER,"
+                                "FOREIGN KEY (ID_PROFESOR) REFERENCES PROFESOR(ID_PROFESOR) ON DELETE CASCADE);";      
+        rc = sqlite3_exec(db, sqlCursos, callback, 0, &errMSG);
+        if(rc != SQLITE_OK) {
+            cerr << "SQL error: " << errMSG << endl; 
+            sqlite3_free(errMSG);
+        } else {
+            cout << "Tabla \"CURSOS\" creada correctamente" << endl;
+        }
     } else {
-        cout << "Tabla \"CURSOS\" creada correctamente" << endl;
+        cout << "Tabla \"CURSOS\" ya existe. Accediendo a ella." << endl;
     }
 
-    // Tabla Reseñas
-    const char *sqlResenas = "CREATE TABLE IF NOT EXISTS RESENAS ("
-                             "ID_RESENA INTEGER PRIMARY KEY AUTOINCREMENT,"
-                             "ID_PROFESOR INTEGER NOT NULL,"
-                             "ID_CURSO INTEGER NOT NULL,"
-                             "CALIFICACION INTEGER CHECK(CALIFICACION >= 1 AND CALIFICACION <= 5),"
-                             "DIFICULTAD INTEGER CHECK(DIFICULTAD >= 1 AND DIFICULTAD <= 5),"
-                             "COMENTARIO TEXT,"
-                             "REVISADO INTEGER DEFAULT 0,"
-                             "FOREIGN KEY (ID_PROFESOR) REFERENCES PROFESOR(ID_PROFESOR) ON DELETE CASCADE,"
-                             "FOREIGN KEY (ID_CURSO) REFERENCES CURSOS(ID_CURSO) ON DELETE CASCADE);";
+    // Verifica si la tabla Reseñas existe
+    if (!checkTableExists(db, "RESENAS")) {
+        // Tabla Reseñas
+        const char *sqlResenas = "CREATE TABLE IF NOT EXISTS RESENAS ("
+                                 "ID_RESENA INTEGER PRIMARY KEY AUTOINCREMENT,"
+                                 "ID_PROFESOR INTEGER NOT NULL,"
+                                 "ID_CURSO INTEGER NOT NULL,"
+                                 "CALIFICACION INTEGER CHECK(CALIFICACION >= 1 AND CALIFICACION <= 5),"
+                                 "DIFICULTAD INTEGER CHECK(DIFICULTAD >= 1 AND DIFICULTAD <= 5),"
+                                 "COMENTARIO TEXT,"
+                                 "REVISADO INTEGER DEFAULT 0,"
+                                 "FOREIGN KEY (ID_PROFESOR) REFERENCES PROFESOR(ID_PROFESOR) ON DELETE CASCADE,"
+                                 "FOREIGN KEY (ID_CURSO) REFERENCES CURSOS(ID_CURSO) ON DELETE CASCADE);";
 
-    rc = sqlite3_exec(db, sqlResenas, callback, 0, &errMSG);
-    if(rc != SQLITE_OK) {
-        cerr << "SQL error: " << errMSG << endl;
-        sqlite3_free(errMSG);
+        rc = sqlite3_exec(db, sqlResenas, callback, 0, &errMSG);
+        if(rc != SQLITE_OK) {
+            cerr << "SQL error: " << errMSG << endl;
+            sqlite3_free(errMSG);
+        } else {
+            cout << "Tabla \"RESEÑAS\" creada correctamente" << endl;
+        }
     } else {
-        cout << "Tabla \"RESEÑAS\" creada correctamente" << endl;
+        cout << "Tabla \"RESEÑAS\" ya existe. Accediendo a ella." << endl;
     }
 }

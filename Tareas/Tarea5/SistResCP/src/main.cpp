@@ -28,16 +28,18 @@ int main() {
     createProfeTable(db);
 
     int exit = 0;  ///< Variable para controlar el menú
-    while (exit != 8) {  ///< Ciclo principal del menú
+    while (exit != 10) {  ///< Ciclo principal del menú
         cout << "\n--- Menú Principal ---\n";
         cout << "1. Ingresar Profesor\n";
         cout << "2. Ingresar Curso\n";
         cout << "3. Ingresar Reseña\n";
         cout << "4. Buscar Profesor por Curso y Escuela\n";
         cout << "5. Mostrar Cursos y Promedios por Escuela\n";
-        cout << "6. Actualizar Estado de Reseñas\n";
+        cout << "6. Buscar Reseñas no Revisadas\n";
         cout << "7. Buscar Top Profesores\n";
-        cout << "8. Salir\n";
+        cout << "8. Actualizar Estado de Reseñas\n";
+        cout << "9. Eliminar Reseña\n";
+        cout << "10. Salir\n";
         cout << "Seleccione una opción: ";
         cin >> exit;  ///< Captura la opción seleccionada
         cin.ignore();  ///< Limpiar el buffer de entrada
@@ -59,14 +61,19 @@ int main() {
                 MostrarTopProfes(db);  ///< Llamada a la función para mostrar cursos y promedios por escuela
                 break;
             case 6:
-                ActualizarEstadoResena(db);  ///< Llamada a la función para actualizar el estado de las reseñas
+                EstadoRevisionRes(db);  ///< Llamada a la función para actualizar el estado de las reseñas
                 break;
             case 7:
                 BuscarTopProfe(db);  ///< Llamada a la función para buscar los top profesores
                 break;
             case 8:
+                ActualresenaNoRev(db);
+            case 9: 
+                EliminarResena(db);
+            case 10:
                 cout << "Saliendo del programa...\n";  ///< Mensaje de salida
                 break;
+                return 0;
             default:
                 cout << "Opción no válida. Por favor, intente de nuevo.\n";  ///< Mensaje de error
         }

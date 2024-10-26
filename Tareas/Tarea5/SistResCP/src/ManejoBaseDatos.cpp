@@ -197,19 +197,19 @@ void IngresarResena(sqlite3* db) {
  * @param db Puntero a la base de datos SQLite.
  * @return No retorna un valor, pero muestra en la consola el nombre del profesor encontrado o un mensaje si no hay coincidencias.
  */
-void BuscarProfeCE(sqlite3*db){
-    string nombreCurso, nombreEscuela; 
+void BuscarProfeCE(sqlite3* db) {
+    string nombreCurso, nombreEscuela;
 
     cout << "Ingrese el nombre del curso: \n"; 
     getline(cin, nombreCurso); 
 
     cout << "Ingrese el nombre de la escuela a la que pertenece el profesor:\n"; 
-    getline(cin,nombreEscuela); 
+    getline(cin, nombreEscuela); 
 
     const char *sql = "SELECT p.NOMBRE " 
-                      "FROM PROFESOR.p "
-                      "JOIN CURSOS C ON P.ID_PROFESOR = C.ID_PROFESOR "
-                      "WHERE C.NOMBRE_CURSO = ? AND P.ESCUELA + ?; "; 
+                      "FROM PROFESOR p "
+                      "JOIN CURSOS c ON p.ID_PROFESOR = c.ID_PROFESOR "
+                      "WHERE c.NOMBRE_CURSO = ? AND p.ESCUELA = ?; "; 
 
     sqlite3_stmt *stmt; 
 
@@ -296,7 +296,7 @@ string nombreEscuela;
  * @param db Puntero a la base de datos SQLite.
  * @return No retorna un valor, pero muestra las reseñas pendientes de revisión en la consola.
  */
-void ActualizarEstadoResena(sqlite3*db){
+void EstadoRevisionRes(sqlite3*db){
     const char *sql = "SELECT P.NOMBRE AS Profesor, "
                       "       C.NOMBRE_CURSO AS Curso, "
                       "       R.COMENTARIO AS Comentario "
@@ -461,4 +461,84 @@ void ConsultResenaPositiv(sqlite3*db){
     }
 
     sqlite3_finalize(stmt);
+}
+
+/**
+ * @brief Busca y muestra las reseñas no revisadas en la base de datos,
+ *        y permite actualizar su estado a revisado.
+ *
+ * Esta función se conecta a una base de datos SQLite y ejecuta una consulta
+ * para seleccionar las reseñas que no han sido revisadas. Las reseñas se
+ * identifican mediante su ID y su texto. Si se encuentran reseñas no 
+ * revisadas, el usuario puede elegir una para actualizar su estado a revisado.
+ *
+ * @param db Puntero a la conexión a la base de datos SQLite.
+ *
+ * @note Se asume que la tabla `RESENA` tiene al menos las siguientes columnas:
+ * - `ID_RESEÑA`: Identificador único de la reseña.
+ * - `TEXTO`: Texto de la reseña.
+ * - `REVISADA`: Estado de la reseña (0 si no ha sido revisada, 1 si ha sido revisada).
+ *
+ * @warning Asegúrate de que la estructura de la tabla `RESENA` en la base
+ * de datos coincida con las suposiciones realizadas en esta función.
+ *
+ * @example
+ * // Uso de la función
+ * ActualresenaNoRev(db);
+ */
+void ActualresenaNoRev(sqlite3* db) {
+    const char* sql = "SELECT ID_RESENA, COMENTARIO "
+                      "FROM RESENAS "
+                      "WHERE REVISADO = 0;"; 
+    sqlite3_stmt* stmt;
+
+    // Preparar la consulta para seleccionar reseñas no revisadas
+    if (sqlite3_prepare_v2(db, sql, -1, &stmt, nullptr) == SQLITE_OK) {
+        bool found = false;
+        cout << "Reseñas no revisadas:\n";
+        cout << "ID Reseña\tComentario\n";
+        cout << "-------------------------------\n";
+
+        // Iterar sobre las reseñas no revisadas y mostrarlas
+        while (sqlite3_step(stmt) == SQLITE_ROW) {
+            int idResena = sqlite3_column_int(stmt, 0);
+            const unsigned char* comentarioResena = sqlite3_column_text(stmt, 1);
+            cout << idResena << "\t\t" << comentarioResena << endl;
+            found = true;
+        }
+
+        // Si no se encontraron reseñas no revisadas
+        if (!found) {
+            cout << "No se encontraron reseñas no revisadas.\n";
+        } else {
+            // Solicitar ID de reseña para actualizar
+            int idActualizar;
+            cout << "Ingrese el ID de la reseña a actualizar a revisada: ";
+            cin >> idActualizar;
+
+            // Actualizar el estado de la reseña a revisada
+            const char* updateSql = "UPDATE RESENAS SET REVISADO = 1 WHERE ID_RESENA = ?;";
+            sqlite3_stmt* updateStmt;
+
+            // Preparar la consulta de actualización
+            if (sqlite3_prepare_v2(db, updateSql, -1, &updateStmt, nullptr) == SQLITE_OK) {
+                sqlite3_bind_int(updateStmt, 1, idActualizar);
+
+                // Ejecutar la actualización
+                if (sqlite3_step(updateStmt) == SQLITE_DONE) {
+                    cout << "Estado de la reseña con ID " << idActualizar << " actualizado a revisada.\n";
+                } else {
+                    cerr << "Error al actualizar el estado de la reseña: " << sqlite3_errmsg(db) << endl;
+                }
+            } else {
+                cerr << "Error en la preparación de la consulta de actualización: " << sqlite3_errmsg(db) << endl;
+            }
+
+            sqlite3_finalize(updateStmt); // Liberar recursos
+        }
+    } else {
+        cerr << "Error en la preparación de la consulta: " << sqlite3_errmsg(db) << endl;
+    }
+
+    sqlite3_finalize(stmt); // Liberar recursos
 }
