@@ -1,1 +1,34 @@
+name: CI/CD Pipeline
 
+on: 
+  push: 
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs: 
+  build:
+    runs-on: ubuntu_latest
+
+    steps: 
+      name: Checkout code 
+      uses: actions/checkout@v2
+      
+      name: Build and run tests
+      run: 
+          cd ./Sesiones/Sesion16/Gtesting/CalculatorTests    #Ir a la direccion donde se encuentra el codigo
+          mkdir build 
+          cd build 
+          cmkae ..
+          make
+          ./test_calculator
+
+      deploy: 
+        needs: build 
+        runs-on: ubuntu-latest
+        steps:
+          name: Checkout code 
+          uses: actions/checkout@v2
+
+          name: deploy to production
+          run: echo "Deploying to production server" 
