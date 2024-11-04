@@ -67,17 +67,34 @@ La "semilla" es el vaor inicial utilizado en algoritmos generadores de números 
 ![Ciclo de vida software Testing](../../Pruebas/Sesion16/CicloVidaSoftwareTesting.png)
 
 
-**1. Análisis de requisitos:** Se analizan los requerimientos y especificaciones de la aplicación de software para identificar el alcance de las pruebas y los casos de prueba que se deben ejecutar. 
+**1. Análisis de requisitos:** Se analizan los requerimientos y especificaciones de la aplicación de software para identificar el alcance de las pruebas y los casos de prueba que se deben ejecutar.
+
+
 **2. Planificación de pruebas:** Se crea un plan de purebas que define la estrategia de prueba, los objetivos, los escenarios de prueba y los casos de prueba que deben ejecutarse.
+
+
+
 **3. Diseño de pruebas:** El equipo de pruebas crea casos de prueba detallados y escenarios de prueba basados en los requerimientos y especificaciones de la aplicación.
+
+
 **4. Configuración del entorno de prueba:** Se configura el entorno de pruebas que incluye el hardware, software y las configuraciones de red necesarias para las pruebas.
+
+
 **5. Ejecución de pruebas:** Ejecución real de los casos de prueba y escenarios de prueba utilizando técnicas de prueba manuales o automatizadas.
+
+
 **6. Informes de pruebas:** Genera informes que documentan los resultados de las pruebas e identifican cualquier defecto o problema que se haya identificado durante el proceso de prueba.
+
+
 **7. Seguimiento de defectos:** Registra y rastrea los defectos o problemas identificados durante el proceso de prueba y trabaja con el equipo de desarrollo para resolverlos.
+
+
 **8. Cierre de la prueba:** Evaluar el proceso de prueba general e identificar áreas de mejora. El equipo de pruebas prepara un informe final que resuma los resultados de las pruebas y el proyecto se considera completo.
 
 
-    ### Tipos de Software Testing
+
+
+### Tipos de Software Testing
 
 ![alt text](../../Pruebas/Sesion16/TiposST.png)
 
@@ -121,7 +138,7 @@ _Aserción -> Acción y efecto de afirmar o dar por cierto algo._
 
 ##### Ejecución del ejercicio: 
 
-![alt text](image.png)
+![alt text](../../Pruebas/Sesion16/EjecuGtest1.png)
 
 
 #### Functional Testing: 
@@ -156,12 +173,12 @@ Se basa en la funcionalidad del software y no en la estructura interna del códi
 
 ##### Ejecución del ejercicio: 
 
-![alt text](image-1.png)
+![alt text](../../Pruebas/Sesion16/GmockTest.png)
 
 
 **Infraestructura para googletest:**
 
-![alt text](image-2.png)
+![alt text](../../Pruebas/Sesion16/InfraEstructGtest.png)
 
 #### Coverage (Cobertura de código):
 
