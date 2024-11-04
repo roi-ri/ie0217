@@ -237,11 +237,11 @@ Elementos desplegados en la pestaña de Acciones en el repositorio de GitHub.
 
 Elementos completos del build:
 
-![alt text](image-3.png)
+![alt text](../../Pruebas/Sesion16/BUILDSDONE.PNG)
 
 
 Output del build and run tests:
-![alt text](image-4.png)
+![alt text](../../Pruebas/Sesion16/BUID&TEST.PNG)
 
 Post Checkout Code: 
 
