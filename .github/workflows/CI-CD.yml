@@ -22,8 +22,9 @@ jobs:
 
       - name: Build project
         run: |
+          cd ./Laboratorios/Laboratorio10/CalculatorProject
           mkdir build
-          cd build
+          cd ./Laboratorios/Laboratorio10/CalculatorProject/build
           cmake ..
           make
 
