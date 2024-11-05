@@ -22,7 +22,6 @@ jobs:
 
       - name: Build project
         run: |
-          cd ./Laboratorios/Laboratorio10
           mkdir build
           cd build
           cmake ..
