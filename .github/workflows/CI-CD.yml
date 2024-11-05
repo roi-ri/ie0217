@@ -24,11 +24,7 @@ jobs:
         run: |
           cd ./Laboratorios/Laboratorio10/CalculatorProject
           mkdir build
-          cd ./Laboratorios/Laboratorio10/CalculatorProject/build
+          cd build
           cmake ..
           make
-
-      - name: Run tests
-        run: |
-          cd build
           ./test_calculator
