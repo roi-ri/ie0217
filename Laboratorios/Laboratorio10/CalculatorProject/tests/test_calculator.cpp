@@ -24,4 +24,3 @@ TEST(CalculatorTests, Division) {
 TEST(CalculatorTests, DivisionByZero) {
     EXPECT_THROW(calc.divide(10.0, 0), std::invalid_argument);
 }
-
