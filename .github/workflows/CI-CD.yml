@@ -43,7 +43,7 @@ jobs:
       # Paso 5: Crear directorio de compilación y compilar el proyecto
       - name: Build project
         run: |
-          cd ./Laboratorios/Laboratorio10
+          cd ./Laboratorios/Laboratorio10/CalculatorProject
           mkdir -p ./Laboratorios/Laboratorio10/CalculatorProject/build
           cd ./Laboratorios/Laboratorio10/CalculatorProject/build
           cmake ..
