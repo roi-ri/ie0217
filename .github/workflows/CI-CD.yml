@@ -44,8 +44,8 @@ jobs:
       - name: Build project
         run: |
           cd ./Laboratorios/Laboratorio10
-          mkdir -p CalculatorProject/build
-          cd CalculatorProject/build
+          mkdir -p ./Laboratorios/Laboratorio10/CalculatorProject/build
+          cd ./Laboratorios/Laboratorio10/CalculatorProject/build
           cmake ..
           make
       # Paso 6: Ejecutar las pruebas
