@@ -686,19 +686,172 @@ a) Explique la diferencia entre un semáforo binario y un semáforo contado.
 
 ## Sistema de Administración de Solicitudes en Paralelo
 
+Prueba de ejecución del programa: 
 
+
+![alt text](../../Pruebas/Tarea6/EjecEjercicio1Tarea6.png)
 
 **1. Explicación del Uso de Mecanismos de Sincronización:**
 
 ○ Justifica el uso de mutex, semaphores, y condition variables en este ejercicio.
 
+- ``std::mutex`` y ``std::losk_guard``
 
+El std::mutex garantiza que solo un hilo acceda al búfer compartido a la vez, evitando condiciones de carrera cuando varios clientes y operadores intentan agregar o extraer solicitudes simultáneamente. std::lock_guard se usa junto con el mutex para simplificar la gestión del bloqueo, asegurando que el mutex se libere automáticamente cuando el bloque de código termina, lo que evita bloqueos por error de programación.
+
+En este ejercicio, cada vez que un cliente quiere agregar una solicitud o un operador quiere procesarla, ambos deben bloquear el acceso al búfer mediante el mutex. Esto asegura que las operaciones de lectura y modificación de la estructura compartida buffer sean atómicas y libres de interferencia.
 
 **2. Análisis de Escenarios:**
 
 ○ Evalúa el impacto en el rendimiento del sistema al variar el tamaño del búfer, el número de clientes y el número de operadores.
 
 
+El funcionamiento es el esperado. 
+
+
+![alt text](../../Pruebas/Tarea6/1.1.png)
+
+Mismos datos que el anterios pero ahora dura menos. 
+
+
+![alt text](../../Pruebas/Tarea6/1.3.png)
+
+
+
+En este caso se quedaba mucho tiempo en espera y no mandaba los resultados de la medicion del tiempo. 
+![alt text](../../Pruebas/Tarea6/1.2.png)
+
+
+Pasa exactamente lo mismo, parece que no tira tiempo de medicion. 
+
+![alt text](../../Pruebas/Tarea6/1.5.png)
+
+
 **3. Posibles Problemas y Soluciones:**
 
 ○ Describe problemas potenciales (como deadlocks y condiciones de carrera) y las soluciones implementadas.
+
+- Un deadlock podría ocurrir si:
+
+    - Los clientes están esperando espacio en el búfer (semáforo empty_slots), pero los operadores están esperando solicitudes en el búfer (semáforo full_slots).
+    - Si todos los clientes terminan de generar solicitudes y ningún operador está disponible para procesarlas, o si los operadores no pueden continuar debido a la falta de solicitudes, podría haber un bloqueo.
+
+
+- Condición de carrera: 
+    - Si múltiples hilos clientes intentan modificar request_count simultáneamente, podrían producirse resultados inconsistentes. Por ejemplo, dos hilos podrían leer el mismo valor de request_count antes de incrementarlo, lo que podría generar solicitudes duplicadas.
+
+
+- Potenciales mejoras: 
+
+
+    - Optimización de la Terminaación de Operadores: Se podría agregar una lógica para que los operadores se detengan cuando hayan procesado todas las solicitudes, en lugar de depender de la condición buffer.empty() y finished. Podría añadirse un contador que haga un seguimiento de las solicitudes procesadas.
+
+    - Manejo de Excepciones en el Uso de Semáforos: En casos donde la implementación de semáforos o la adquisición de recursos falle, sería recomendable agregar manejo de excepciones para capturar posibles errores de sincronización o de recursos.
+
+
+## Depuración Completa de Código en C++ con GDB, V algrind y Sanitizers
+
+
+- **Resumen general del programa**
+
+El programa implementa una clase DataProcessor que gestiona una estructura de datos dinámica (data), permite llenarla con valores generados automáticamente, realiza un procesamiento concurrente utilizando hilos y calcula estadísticas sobre los datos procesados.
+
+- Clase DataProcessor:
+    - La clase contiene un arreglo dinámico de enteros (data) de tamaño especificado por el usuario. Se encarga de:
+
+    - Inicializar el arreglo.
+    - Llenarlo con valores calculados (i * 10).
+    - Procesarlo de manera concurrente con dos hilos, duplicando cada valor del arreglo.
+    - Calcular la suma de los valores del arreglo.
+    - Calcular el promedio de los valores.
+    - Imprimir los valores procesados.
+
+- Funciones principales:
+
+    - populateData(): Llena el arreglo data con valores multiplicados por 10.
+    - calculateSum(): Calcula la suma de los valores en el arreglo.
+    - calculateAverage(): Calcula el promedio de los valores en el arreglo.
+    - concurrentProcess(): Inicia dos hilos que ejecutan la función processData(), la cual multiplica por 2 cada valor en el arreglo.
+    - printData(): Imprime los valores del arreglo.
+
+- Errores encontrados: 
+
+1. índice fuera de alcance en ``populateData()``. En la función ``populateData()``, el ciclo for va de ``i = 0 a i <= size``. Este ciclo está accediendo a una posición fuera del rango del arreglo, ya que el índice debería ir de 0 a size - 1. Como resultado, el ciclo intentará acceder a ``data[size]``, lo cual es un error de memoria, ya que se está fuera de los límites del arreglo.
+
+
+- Visualización del error: 
+
+
+![alt text](../../Pruebas/Tarea6/PrimerErrorCodigo.png)
+
+
+Corrección:
+
+```cpp
+    void populateData() {
+        for (int i = 0; i < size; ++i) {
+            data[i] = i * 10; // Llenado con múltiplos de 10
+        }
+    }
+```
+
+
+
+2. Se permite la división entre cero (NO hay ningun elemento que prevenga esto).
+
+
+
+![alt text](../../Pruebas/Tarea6/Division0.png)
+
+
+Corrección:
+
+```cpp
+   double calculateAverage() {
+        if (size == 0) {
+            std::cout << "Error: division por cero."; // Prevención de división por cero
+            return 0;
+        } else {
+            return static_cast<double>(calculateSum()) / size; // Promedio
+        }
+    }
+```
+
+
+
+3. Acceso Concurrente sin Protección en ``processData()``: No hay sincronización explícita para proteger el acceso al arreglo data. Esto puede llevar a una condición de carrera si ambos hilos intentan modificar el mismo valor al mismo tiempo.
+
+
+Llega un punto en el que se pueden observar tres threads activos cuando solo deberían haber dos: 
+
+![alt text](../../Pruebas/Tarea6/3threads.png)
+
+Corrección: 
+
+
+```cpp
+void processDataPart(int start, int end) {
+    for (int i = start; i < end; ++i) {
+        std::lock_guard<std::mutex> lock(mtx); // Bloqueo del mutex al inicio de la sección crítica
+        data[i] *= 2; // Multiplica cada valor por 2
+        }
+    }
+```
+
+
+### Ejecución de las otras consultas solicitadas: 
+
+
+![alt text](../../Pruebas/Tarea6/NOMemoryLeaks.png)
+
+
+![alt text](../../Pruebas/Tarea6/Thread.png)
+
+
+![alt text](../../Pruebas/Tarea6/UltimoThreads.png)
+
+
+
+Con el adress se generó un error pero después se comprobó que esto es debido a que se hace un elemento muy grande 
+
+![alt text](../../Pruebas/Tarea6/ErrorAddress.png)
