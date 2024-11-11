@@ -1,95 +1,149 @@
+/**
+ * @file main.cpp
+ * @brief Clase para procesar datos con soporte para concurrencia y manejo seguro de memoria.
+ * 
+ * Este programa solicita al usuario el tamaño de los datos, los llena automáticamente, 
+ * los procesa de forma concurrente y calcula estadísticas básicas como suma y promedio.
+ */
+
 #include <iostream>
 #include <vector>
 #include <thread>
 #include <mutex>
 
+/**
+ * @class DataProcessor
+ * @brief Clase que maneja el procesamiento de datos con concurrencia.
+ * 
+ * La clase permite el manejo de un arreglo de datos, llenado, procesamiento concurrente
+ * y cálculo de estadísticas básicas.
+ */
 class DataProcessor {
 public:
-    // Constructor con manejo de excepciones para una posible asignación de memoria fallida
+    /**
+     * @brief Constructor de la clase DataProcessor.
+     * 
+     * Inicializa el objeto con un tamaño especificado. Si el tamaño es inválido
+     * o la asignación de memoria falla, se reporta un error.
+     * 
+     * @param size Tamaño del arreglo de datos.
+     */
     DataProcessor(int size) : size(size) {
         if (size <= 0) {
-            std::cout << "Error: tamano invalido\n"; // Asegura que el tamaño sea positivo
-            return; // No se procede si el tamaño es inválido
+            std::cout << "Error: tamano invalido\n";
+            return;
         }
         try {
-            data.resize(size);  // Usamos vector para manejar la memoria automáticamente
+            data.resize(size);
         } catch (const std::bad_alloc& e) {
-            std::cout << "Error: fallo de memoria\n"; // Captura de error si la asignación de memoria falla
+            std::cout << "Error: fallo de memoria\n";
         }
     }
 
-    // Método para llenar el arreglo con datos
+    /**
+     * @brief Llena el arreglo de datos con múltiplos de 10.
+     */
     void populateData() {
         for (int i = 0; i < size; ++i) {
-            data[i] = i * 10; // Llenado con múltiplos de 10
+            data[i] = i * 10;
         }
     }
 
-    // Método para calcular la suma de los datos
+    /**
+     * @brief Calcula la suma de todos los elementos del arreglo.
+     * 
+     * @return La suma de los elementos.
+     */
     int calculateSum() {
         int sum = 0;
         for (int i = 0; i < size; ++i) {
-            sum += data[i]; // Suma de todos los elementos
+            sum += data[i];
         }
         return sum;
     }
 
-    // Método para calcular el promedio
+    /**
+     * @brief Calcula el promedio de los elementos del arreglo.
+     * 
+     * Previene la división por cero si el tamaño del arreglo es 0.
+     * 
+     * @return El promedio de los elementos o 0 si el tamaño es 0.
+     */
     double calculateAverage() {
         if (size == 0) {
-            std::cout << "Error: division por cero."; // Prevención de división por cero
+            std::cout << "Error: division por cero.";
             return 0;
-        } else {
-            return static_cast<double>(calculateSum()) / size; // Promedio
         }
+        return static_cast<double>(calculateSum()) / size;
     }
 
-    // Método que maneja la ejecución concurrente utilizando hilos
+    /**
+     * @brief Procesa los datos de forma concurrente utilizando dos hilos.
+     * 
+     * Cada hilo procesa una parte del arreglo.
+     */
     void concurrentProcess() {
-        std::thread t1(&DataProcessor::processDataPart, this, 0, size / 2); // Primer hilo trabaja en la mitad
-        std::thread t2(&DataProcessor::processDataPart, this, size / 2, size); // Segundo hilo trabaja en la otra mitad
+        std::thread t1(&DataProcessor::processDataPart, this, 0, size / 2);
+        std::thread t2(&DataProcessor::processDataPart, this, size / 2, size);
 
-        t1.join(); // Espera a que termine el hilo 1
-        t2.join(); // Espera a que termine el hilo 2
+        t1.join();
+        t2.join();
     }
 
-    // Método para imprimir los datos procesados
+    /**
+     * @brief Imprime los datos procesados en la consola.
+     */
     void printData() {
         for (int i = 0; i < size; ++i) {
-            std::cout << "Data[" << i << "] = " << data[i] << std::endl; // Imprime cada dato
+            std::cout << "Data[" << i << "] = " << data[i] << std::endl;
         }
     }
 
 private:
-    std::vector<int> data; // Usamos un vector para manejar la memoria automáticamente
-    int size;
-    std::mutex mtx; // Mutex para protección
+    std::vector<int> data; ///< Arreglo de datos manejado automáticamente por std::vector.
+    int size;              ///< Tamaño del arreglo.
+    std::mutex mtx;        ///< Mutex para proteger el acceso concurrente a los datos.
 
-    // Método que procesa una parte de los datos (sin necesidad de mutex, ya que no hay acceso concurrente)
+    /**
+     * @brief Procesa una parte del arreglo de datos.
+     * 
+     * Multiplica cada elemento en el rango [start, end) por 2.
+     * 
+     * @param start Índice de inicio del rango a procesar.
+     * @param end Índice de fin del rango a procesar (exclusivo).
+     */
     void processDataPart(int start, int end) {
         for (int i = start; i < end; ++i) {
-            data[i] *= 2; // Multiplica cada valor por 2
+            std::lock_guard<std::mutex> lock(mtx);
+            data[i] *= 2;
         }
     }
 };
 
+/**
+ * @brief Función principal.
+ * 
+ * Solicita al usuario el tamaño del arreglo, inicializa el objeto DataProcessor,
+ * llena los datos, los procesa de forma concurrente y calcula el promedio.
+ * 
+ * @return int Código de salida del programa.
+ */
 int main() {
     int size;
     std::cout << "Enter size of data: ";
     std::cin >> size;
 
-    // Validación de entrada
     if (size <= 0) {
-        std::cout << "Error: size must be greater than 0\n"; // Valida que el tamaño sea mayor que 0
-        return 1; // Termina el programa si el tamaño es inválido
+        std::cout << "Error: size must be greater than 0\n";
+        return 1;
     }
 
-    DataProcessor* processor = new DataProcessor(size); // Crea el objeto de procesamiento de datos
+    DataProcessor* processor = new DataProcessor(size);
 
-    processor->populateData(); // Llena los datos
-    processor->concurrentProcess(); // Procesa los datos en paralelo
-    std::cout << "Average: " << processor->calculateAverage() << std::endl; // Calcula y muestra el promedio
+    processor->populateData();
+    processor->concurrentProcess();
+    std::cout << "Average: " << processor->calculateAverage() << std::endl;
 
-    delete processor; // Elimina el objeto creado
+    delete processor;
     return 0;
 }
