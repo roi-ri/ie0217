@@ -10,6 +10,47 @@
 
 
 
+## Instrucciones para ejecución de los programa: 
+
+1. Ubicación: 
+- Asegúrese de que el `MAKEFILE` se encuentre en el mismo directorio donde está la carpeta `src` que contiene los archivos fuente (`.cpp`).
+- El `MAKEFILE` y la carpeta `src` deben estar en el mismo nivel dentro de una estructura de directorios.
+2. Preparar el entorno:
+**Para Windows** 
+- Se debe tener un compilador compatible con `g++` intalado. 
+- Abrir una ventada de comandos (cmd) o PowerShell.
+**Para Linux**
+- Asegúrese de tener instalado `g++` y `make`. En la mayoría de las distribuciones, puedes instalarlos con:
+```bash
+sudo apt-get install build-essential 
+```
+- Abrir la terminal.
+
+3. Navegar a la localizacion de los archivos. 
+
+```bash
+#posible ruta
+
+cd ./ie0217/Tareas/Tarea6
+```
+
+4. Ejecute el Makefile: 
+
+```bash
+make
+```
+
+5. Ejecute el programa que dese
+
+```bash
+#para DataProcessor: 
+
+./DataProcessor
+
+#Para SistAdminSolParal.cpp
+
+./SistAdminSolParal
+```
 
 
 ## Parte teórica
