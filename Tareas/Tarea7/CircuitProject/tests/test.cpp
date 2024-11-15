@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
-#include "Inventario.hpp"
-#include "Circuito.hpp"
+#include "../src/Inventario.hpp"
+#include "../src/Circuito.hpp"
 
 // Test para la clase Inventario
 TEST(InventarioTest, AgregarYBuscarComponente) {
