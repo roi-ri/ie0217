@@ -1,8 +1,20 @@
-# Add the test executable
-add_executable(run_tests test.cpp)
+cmake_minimum_required(VERSION 3.10)
+project(CircuitProject)
 
-# Link GoogleTest and circ_lib
-target_link_libraries(run_tests gtest gtest_main circ_lib)
+# Define the source files for the main executable
+set(SOURCES src/main.cpp src/Inventario.cpp src/Circuito.cpp)
 
-# Add the test to CMake
-add_test(NAME CircuitTests COMMAND run_tests)
+# Create the main executable
+add_executable(circuit_project ${SOURCES})
+
+# Link GoogleTest as a subdirectory
+add_subdirectory(googletest)
+
+# Include directories for GoogleTest
+include_directories(googletest/googletest/include)
+
+# Enable testing
+enable_testing()
+
+# Add the subdirectory for tests
+add_subdirectory(tests)
