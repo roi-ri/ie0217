@@ -1,9 +1,10 @@
+
 #include "Circuito.hpp"
 #include <iostream>
 #include <stdexcept>  // Para las excepciones
 
 // Función para calcular la resistencia total en serie
-double Circuitos::resistenciaSerie(const std::vector<double>& valores) {
+double Circuitos::resistenciaSerie(const std::vector<double>& resistencias) {
     if (resistencias.empty()) {
         throw std::invalid_argument("El vector de resistencias no puede estar vacío");
     }
@@ -19,7 +20,7 @@ double Circuitos::resistenciaSerie(const std::vector<double>& valores) {
 }
 
 // Función para calcular la inductancia total en serie
-double Circuitos::inductanciaSerie(const std::vector<double>& valores) {
+double Circuitos::inductanciaSerie(const std::vector<double>& inductancias) {
     if (inductancias.empty()) {
         throw std::invalid_argument("El vector de inductancias no puede estar vacío");
     }
@@ -35,7 +36,7 @@ double Circuitos::inductanciaSerie(const std::vector<double>& valores) {
 }
 
 // Función para calcular la capacitancia total en serie
-double Circuitos::capacitanciaSerie(const std::vector<double>& valores) {
+double Circuitos::capacitanciaSerie(const std::vector<double>& capacitancias) {
     if (capacitancias.empty()) {
         throw std::invalid_argument("El vector de capacitancias no puede estar vacío");
     }
@@ -54,7 +55,7 @@ double Circuitos::capacitanciaSerie(const std::vector<double>& valores) {
 }
 
 // Función para calcular la resistencia total en paralelo
-double Circuitos::capacitanciaSerie(const std::vector<double>& valores) {
+double Circuitos::resistenciaParalelo(const std::vector<double>& resistencias) {
     if (resistencias.empty()) {
         throw std::invalid_argument("El vector de resistencias no puede estar vacío");
     }
@@ -73,7 +74,7 @@ double Circuitos::capacitanciaSerie(const std::vector<double>& valores) {
 }
 
 // Función para calcular la inductancia total en paralelo
-double Circuitos::inductanciaParalelo(const std::vector<double>& valores) {
+double Circuitos::inductanciaParalelo(const std::vector<double>& inductancias) {
     if (inductancias.empty()) {
         throw std::invalid_argument("El vector de inductancias no puede estar vacío");
     }
@@ -92,7 +93,7 @@ double Circuitos::inductanciaParalelo(const std::vector<double>& valores) {
 }
 
 // Función para calcular la capacitancia total en paralelo
-double Circuitos::capacitanciaParalelo(const std::vector<double>& valores) {
+double Circuitos::capacitanciaParalelo(const std::vector<double>& capacitancias) {
     if (capacitancias.empty()) {
         throw std::invalid_argument("El vector de capacitancias no puede estar vacío");
     }
