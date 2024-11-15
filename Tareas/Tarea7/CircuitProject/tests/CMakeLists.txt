@@ -1,5 +1,3 @@
-# tests/CMakeLists.txt
-
 # Agregar el ejecutable de pruebas
 add_executable(run_tests test.cpp)
 
