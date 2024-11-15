@@ -1,8 +1,8 @@
-# Add the test executable
+# Agregar el ejecutable de pruebas
 add_executable(run_tests test.cpp)
 
-# Link GoogleTest and the main library
+# Enlazar GoogleTest y la biblioteca del proyecto
 target_link_libraries(run_tests gtest gtest_main circ_lib)
 
-# Add the test to CMake
+# Agregar prueba a CMake
 add_test(NAME CircuitTests COMMAND run_tests)

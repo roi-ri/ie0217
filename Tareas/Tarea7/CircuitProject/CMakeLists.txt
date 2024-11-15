@@ -1,19 +1,18 @@
+cmake_minimum_required(VERSION 3.10)
 project(CircuitProject)
 
-# Add the source files for the main project
+# Agregar los archivos fuente del proyecto
 set(SOURCES src/main.cpp src/Inventario.cpp src/Circuito.cpp)
 
-# Create the main executable
-add_executable(circuit_project ${SOURCES})
+# Crear la biblioteca principal
+add_library(circ_lib ${SOURCES})
 
-# Add GoogleTest as a subdirectory
+# Incluir GoogleTest como subdirectorio
 add_subdirectory(googletest)
 
-# Link the executable to GoogleTest
-target_link_libraries(circuit_project gtest gtest_main)
+# Incluir directorios de GoogleTest
+include_directories(googletest/googletest/include)
 
-# Enable testing
+# Configurar pruebas
 enable_testing()
-
-# Add the subdirectory for tests
 add_subdirectory(tests)
