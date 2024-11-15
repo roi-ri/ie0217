@@ -6,14 +6,12 @@
 
 class Circuitos {
 public:
-    // Funciones miembro para el cálculo de resistencias, inductancias y capacitancias
-    double resistenciaSerie(const std::vector<double>& resistencias);
-    double inductanciaSerie(const std::vector<double>& inductancias);
-    double capacitanciaSerie(const std::vector<double>& capacitancias);
-
-    double resistenciaParalelo(const std::vector<double>& resistencias);
-    double inductanciaParalelo(const std::vector<double>& inductancias);
-    double capacitanciaParalelo(const std::vector<double>& capacitancias);
+    static double resistenciaSerie(const std::vector<double>& valores);
+    static double resistenciaParalelo(const std::vector<double>& valores);
+    static double capacitanciaSerie(const std::vector<double>& valores);
+    static double capacitanciaParalelo(const std::vector<double>& valores);
+    static double inductanciaSerie(const std::vector<double>& valores);
+    static double inductanciaParalelo(const std::vector<double>& valores);
 };
 
 #endif // CIRCUITO_HPP
