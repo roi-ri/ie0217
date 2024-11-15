@@ -1,20 +1,20 @@
-cmake_minimum_required(VERSION 3.10)
-project(CircuitProject)
+# Define the circ_lib library
+add_library(circ_lib STATIC src/CircLib.cpp)  # Adjust path if needed
 
-# Agregar los archivos fuente del proyecto
-set(SOURCES src/main.cpp src/Inventario.cpp src/Circuito.cpp)
-
-# Si el objetivo es un ejecutable, usa add_executable en lugar de add_library
+# Add the main executable
 add_executable(circuit_project ${SOURCES})
 
+# Link circ_lib to the main project
+target_link_libraries(circuit_project circ_lib)
+
 # Incluir GoogleTest como subdirectorio
-add_subdirectory(googletest)  # Esto debería apuntar a la carpeta de GoogleTest que clonamos
+add_subdirectory(googletest)
 
 # Incluir directorios de GoogleTest
 include_directories(googletest/googletest/include)
 
-# Agregar GoogleTest y configurar las pruebas
+# Enable testing
 enable_testing()
 
-# Agregar el subdirectorio de pruebas
+# Add the subdirectory for tests
 add_subdirectory(tests)
