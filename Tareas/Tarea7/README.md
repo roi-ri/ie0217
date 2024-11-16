@@ -570,7 +570,7 @@ El proceso de testing cubre una amplia gama de casos, asegurando que las funcion
 
 
 Por más que se intentó, no se logró acercar al 90%
-![alt text](../../Pruebas/Tarea7/68%.png)
+![alt text](../../Pruebas/Tarea7/68.png)
 
 
 # Implementación de CI/CD
