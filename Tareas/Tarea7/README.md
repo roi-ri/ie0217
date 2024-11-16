@@ -332,24 +332,23 @@ void mostrarMenu() {
     std::cout << "6. Salir\n";
     std::cout << "Seleccione una opción: ";
 }
-Opciones del Menú
+```
+#### Opciones del Menú
 1. Agregar Componente
 Esta opción permite agregar un nuevo componente al inventario o incrementar la cantidad de un componente existente.
 
 Ejemplo de Interacción
-yaml
-Copiar código
+```bash
+
 Ingrese el nombre del componente: Resistencia1
 Ingrese el tipo del componente: Resistencia
 Ingrese la cantidad: 10
 Ingrese la descripción: Resistencia de 10 ohms
 Resultado:
+```
 
-Copiar código
-Componente agregado.
-Fragmento del Código
-cpp
-Copiar código
+```cpp
+
 void Inventario::agregarComponente(const std::string& nombre, const std::string& tipo, int cantidad, const std::string& descripcion) {
     auto it = std::find_if(componentes.begin(), componentes.end(), [&](const Componente& c) {
         return c.nombre == nombre;
@@ -361,21 +360,18 @@ void Inventario::agregarComponente(const std::string& nombre, const std::string&
         componentes.push_back(Componente(nombre, tipo, cantidad, descripcion));
     }
 }
+```
 2. Reducir Componente
 Permite disminuir la cantidad disponible de un componente en el inventario.
 
 Ejemplo de Interacción
 less
-Copiar código
+```bash
 Ingrese el nombre del componente: Resistencia1
 Ingrese la cantidad a reducir: 5
-Resultado:
+```
 
-Copiar código
-Componente reducido.
-Fragmento del Código
-cpp
-Copiar código
+```cpp
 void Inventario::reducirComponente(const std::string& nombre, int cantidad) {
     auto it = std::find_if(componentes.begin(), componentes.end(), [&](const Componente& c) {
         return c.nombre == nombre;
