@@ -304,19 +304,8 @@ void Inventario::reducirComponente(const std::string& nombre, int cantidad) {
 
     it->cantidad -= cantidad;
 }
-```cpp
+```
 
-
-
-Claro, aquí está completamente en formato Markdown:
-
-markdown
-Copiar código
-# Instrucciones de Uso del Programa
-
-## Requisitos Previos
-1. Asegúrate de que el programa ha sido correctamente compilado y se encuentra listo para ejecutarse desde un terminal.
-2. Prepara los valores y componentes que deseas gestionar o calcular.
 
 ## Inicio del Programa
 Al ejecutar el programa, se mostrará un menú interactivo con varias opciones disponibles:
